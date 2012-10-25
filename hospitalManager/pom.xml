@@ -17,6 +17,7 @@
   </dependency>
   </dependencies>
   
+  <!-- 	For test the module from console -->
   <build>
   	<plugins>
   		<plugin>

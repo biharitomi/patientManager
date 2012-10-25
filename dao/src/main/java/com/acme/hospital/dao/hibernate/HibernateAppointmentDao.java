@@ -2,41 +2,88 @@ package com.acme.hospital.dao.hibernate;
 
 import java.util.Collection;
 import java.util.Date;
+import java.util.Set;
+
+import javax.persistence.NoResultException;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Restrictions;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.acme.hospital.dao.AppointmentDAO;
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
 
+@Repository
 public class HibernateAppointmentDao implements AppointmentDAO {
-
+	
+	@Autowired
+	SessionFactory sessionFactory;
+	
 	@Override
 	public void persistAppointment(Appointment appointment) {
-		// TODO Auto-generated method stub
-
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		session.saveOrUpdate(appointment);
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Override
 	public void updateAppointment(Appointment appointment) {
-		// TODO Auto-generated method stub
-
+		persistAppointment(appointment);
 	}
 
 	@Override
 	public void deleteAppointment(Appointment appointment) {
-		// TODO Auto-generated method stub
-
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		session.delete(appointment);
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
+	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Appointment> getDoctorAppointments(Doctor doctor) {
-		// TODO Auto-generated method stub
-		return null;
+		Set<Appointment> appointments;
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		appointments=(Set<Appointment>)session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		if(appointments.isEmpty()){
+			throw new NoResultException("Doesn't exist appointment with doctor: "+doctor.toString());
+		}
+		
+		return appointments;
 	}
 
 	@Override
 	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date) {
-		// TODO Auto-generated method stub
-		return null;
+		Appointment appointment;
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		appointment=(Appointment)session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).uniqueResult();
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		if(appointment==null){
+			throw new NoResultException("Doesn't exist appointment with doctor: "+doctor.toString()+" and with date: "+date);
+		}
+		
+		return appointment;
 	}
 
 }
