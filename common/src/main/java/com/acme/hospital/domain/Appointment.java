@@ -6,6 +6,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -19,20 +20,26 @@ public class Appointment {
 	@Column(nullable=false)
 	private Date date;
 	
-	@Column
-	private long doctorId;
+	@ManyToOne
+	private Doctor doctor;
 	
-	@Column
-	private long patientId;
+	@ManyToOne
+	private Patient patient;
+
+	@Override
+	public String toString() {
+		return "Appointment [id=" + id + ", date=" + date + ", doctor="
+				+ doctor + ", patient=" + patient + "]";
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + (int) (doctorId ^ (doctorId >>> 32));
+		result = prime * result + ((doctor == null) ? 0 : doctor.hashCode());
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + (int) (patientId ^ (patientId >>> 32));
+		result = prime * result + ((patient == null) ? 0 : patient.hashCode());
 		return result;
 	}
 
@@ -50,19 +57,19 @@ public class Appointment {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (doctorId != other.doctorId)
+		if (doctor == null) {
+			if (other.doctor != null)
+				return false;
+		} else if (!doctor.equals(other.doctor))
 			return false;
 		if (id != other.id)
 			return false;
-		if (patientId != other.patientId)
+		if (patient == null) {
+			if (other.patient != null)
+				return false;
+		} else if (!patient.equals(other.patient))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Appointment [id=" + id + ", date=" + date.toString() + ", doctorId="
-				+ doctorId + ", patientId=" + patientId + "]";
 	}
 
 	public long getId() {
@@ -81,19 +88,20 @@ public class Appointment {
 		this.date = date;
 	}
 
-	public long getDoctorId() {
-		return doctorId;
+	public Doctor getDoctor() {
+		return doctor;
 	}
 
-	public void setDoctorId(long doctorId) {
-		this.doctorId = doctorId;
+	public void setDoctor(Doctor doctor) {
+		this.doctor = doctor;
 	}
 
-	public long getPatientId() {
-		return patientId;
+	public Patient getPatient() {
+		return patient;
 	}
 
-	public void setPatientId(long patientId) {
-		this.patientId = patientId;
+	public void setPatient(Patient patient) {
+		this.patient = patient;
 	}
+	
 }

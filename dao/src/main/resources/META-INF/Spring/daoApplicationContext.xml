@@ -22,6 +22,8 @@
 		<property name="annotatedClasses">
 			<list>
 				<value>com.acme.hospital.domain.Appointment</value>
+				<value>com.acme.hospital.domain.Doctor</value>
+				<value>com.acme.hospital.domain.Patient</value>
 			</list>
 		</property>
 		<property name="hibernateProperties">
@@ -29,7 +31,7 @@
 				<prop key="hibernate.dialect">org.hibernate.dialect.MySQL5InnoDBDialect</prop>
 				<prop key="hibernate.show_sql">true</prop>
 				<prop key="hibernate.format_sql">true</prop>
-				<prop key="hibernate.hbm2ddl.auto">create</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
 			</props>
 		</property>
 	</bean>

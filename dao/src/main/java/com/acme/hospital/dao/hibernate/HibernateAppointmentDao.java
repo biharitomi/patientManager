@@ -56,7 +56,7 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		appointments=(List<Appointment>)session.createCriteria(Appointment.class).add(Restrictions.eq("doctorId", doctor.getId())).list();
+		appointments=(List<Appointment>)session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).list();
 		
 		session.getTransaction().commit();
 		session.close();
@@ -74,7 +74,7 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		appointment=(Appointment)session.createCriteria(Appointment.class).add(Restrictions.eq("doctorId", doctor.getId())).add(Restrictions.eq("date", date)).uniqueResult();
+		appointment=(Appointment)session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).add(Restrictions.eq("date", date)).uniqueResult();
 		
 		session.getTransaction().commit();
 		session.close();
