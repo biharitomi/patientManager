@@ -12,73 +12,28 @@ import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
 import com.acme.hospitalManager.repository.PatientRepository;
 
 @Repository
 public class HibernatePatientRepository implements PatientRepository {
-//	private static Logger logger=LoggerFactory.getLogger(HibernatePatientRepository.class);
-	
+
 	@Autowired
 	private SessionFactory sessionFactory;
-	
-	
-	
-	@SuppressWarnings("unchecked")
+
 	public Patient getPatientById(long id) {
-		Patient patient;
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		
-		Criteria crit=session.createCriteria(Patient.class).add(Restrictions.eq("id", id));
-		List<Patient> result=(List<Patient>)crit.list();
-		
-		if(result.isEmpty()){
-			throw new NoResultException("Patient not found with id: "+id);
-		}
-		else{
-			patient=result.get(0);
-		}
-		
-		session.getTransaction().commit();
-		session.close();
-		
-		return patient;
+		List<Patient> patients = getPatientsByCriteria("id", id);
+		return patients.get(0);
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public Patient getPatientByName(String name) {
-		Patient patient;
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		
-		Criteria crit=session.createCriteria(Patient.class).add(Restrictions.eq("name", name));
-		List<Patient> result=(List<Patient>)crit.list();
-		
-		if(result.isEmpty()){
-			throw new NoResultException("Patient not found with name: "+name);
-		}
-		else{
-			patient=result.get(0);
-		}
-		
-		session.getTransaction().commit();
-		session.close();
-		
-		return patient;
+		List<Patient> patients = getPatientsByCriteria("name", name);
+		return patients.get(0);
 	}
-	
-	@SuppressWarnings("unchecked")
+
 	public Collection<Patient> getAllPatient() {
-		List<Patient> patients;
-		Session session = sessionFactory.openSession();
-		session.beginTransaction();
-		
-		patients=(List<Patient>)session.createQuery("from Patient").list();
-		
-		session.getTransaction().commit();
-		session.close();
-		
+		List<Patient> patients = getPatientsByCriteria(null, null);
 		return patients;
 	}
 
@@ -88,6 +43,30 @@ public class HibernatePatientRepository implements PatientRepository {
 
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
+	}
+
+	private List<Patient> getPatientsByCriteria(String name, Object object) {
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+
+		Criteria crit = session.createCriteria(Patient.class);
+
+		if (name != null && object != null) {
+			crit.add(Restrictions.eq(name, object));
+		}
+
+		@SuppressWarnings("unchecked")
+		List<Patient> result = (List<Patient>) crit.list();
+
+		if (result.isEmpty()) {
+			throw new NoResultException(
+					"No patient(s) found for the given criteria!");
+		}
+
+		session.getTransaction().commit();
+		session.close();
+
+		return result;
 	}
 
 }

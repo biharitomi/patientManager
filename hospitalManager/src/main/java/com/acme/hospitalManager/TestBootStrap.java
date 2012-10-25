@@ -9,24 +9,25 @@ import com.acme.hospitalManager.repository.hibernate.HibernateDoctorRepository;
 import com.acme.hospitalManager.repository.hibernate.HibernatePatientRepository;
 
 public class TestBootStrap {
-	
-		public static void main(String[] args) {
-			// TODO Auto-generated method stub
-			ApplicationContext ctx = new ClassPathXmlApplicationContext("*.xml");
-			HibernatePatientRepository hpr=ctx.getBean(HibernatePatientRepository.class);
-			System.out.println(hpr.getPatientById(1L).toString());
-			System.out.println(hpr.getPatientByName("Jamaar").toString());
-			for(Patient p: hpr.getAllPatient()){
-				System.out.println(p.toString());
-			}
-			
-			HibernateDoctorRepository hdr=ctx.getBean(HibernateDoctorRepository.class);
-			System.out.println(hdr.getDoctorByName("Molly"));
-			System.out.println(hdr.getDoctorById(1L));
-			for(Doctor d: hdr.getAllDoctor()){
-				System.out.println(d);
-			}
+
+	public static void main(String[] args) {
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("*.xml");
+		HibernatePatientRepository hpr = ctx
+				.getBean(HibernatePatientRepository.class);
+		System.out.println(hpr.getPatientById(1L).toString());
+		System.out.println(hpr.getPatientByName("Jamaar").toString());
+		for (Patient p : hpr.getAllPatient()) {
+			System.out.println(p.toString());
 		}
 
+		HibernateDoctorRepository hdr = ctx
+				.getBean(HibernateDoctorRepository.class);
+		System.out.println(hdr.getDoctorByName("Molly"));
+		System.out.println(hdr.getDoctorById(1L));
+		for (Doctor d : hdr.getAllDoctor()) {
+			System.out.println(d);
+		}
+
+	}
 
 }
