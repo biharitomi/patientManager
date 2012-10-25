@@ -26,7 +26,7 @@
 				<configuration>
 					<archive>
 						<manifest>
-							<mainClass>com.acme.hospitalManager.TestBootStrap</mainClass>
+							<mainClass>com.acme.hospital.dao.TestBootStrap</mainClass>
 							<addClasspath>true</addClasspath>
 						</manifest>
 					</archive>
@@ -37,7 +37,7 @@
 				<artifactId>exec-maven-plugin</artifactId>
 				<version>1.2.1</version>
 				<configuration>
-					<mainClass>com.acme.hospitalManager.TestBootStrap</mainClass>
+					<mainClass>com.acme.hospital.dao.TestBootStrap</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

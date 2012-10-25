@@ -2,7 +2,7 @@ package com.acme.hospital.dao.hibernate;
 
 import java.util.Collection;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
 import javax.persistence.NoResultException;
 
@@ -20,7 +20,7 @@ import com.acme.hospital.domain.Doctor;
 public class HibernateAppointmentDao implements AppointmentDAO {
 	
 	@Autowired
-	SessionFactory sessionFactory;
+	private SessionFactory sessionFactory;
 	
 	@Override
 	public void persistAppointment(Appointment appointment) {
@@ -52,11 +52,11 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 	@SuppressWarnings("unchecked")
 	@Override
 	public Collection<Appointment> getDoctorAppointments(Doctor doctor) {
-		Set<Appointment> appointments;
+		List<Appointment> appointments;
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		appointments=(Set<Appointment>)session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).list();
+		appointments=(List<Appointment>)session.createCriteria(Appointment.class).add(Restrictions.eq("doctorId", doctor.getId())).list();
 		
 		session.getTransaction().commit();
 		session.close();
@@ -74,7 +74,7 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		appointment=(Appointment)session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).uniqueResult();
+		appointment=(Appointment)session.createCriteria(Appointment.class).add(Restrictions.eq("doctorId", doctor.getId())).add(Restrictions.eq("date", date)).uniqueResult();
 		
 		session.getTransaction().commit();
 		session.close();
@@ -86,4 +86,12 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		return appointment;
 	}
 
+	public SessionFactory getSessionFactory() {
+		return sessionFactory;
+	}
+
+	public void setSessionFactory(SessionFactory sessionFactory) {
+		this.sessionFactory = sessionFactory;
+	}
+	
 }

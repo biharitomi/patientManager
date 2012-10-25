@@ -6,7 +6,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @Entity
@@ -20,58 +19,20 @@ public class Appointment {
 	@Column(nullable=false)
 	private Date date;
 	
-	@ManyToOne
-	private Doctor doctor;
+	@Column
+	private long doctorId;
 	
-	@ManyToOne
-	private Patient patient;
-
-	public long getId() {
-		return id;
-	}
-
-	public void setId(long id) {
-		this.id = id;
-	}
-
-	public Date getDate() {
-		return date;
-	}
-
-	public void setDate(Date date) {
-		this.date = date;
-	}
-
-	public Doctor getDoctor() {
-		return doctor;
-	}
-
-	public void setDoctor(Doctor doctor) {
-		this.doctor = doctor;
-	}
-
-	public Patient getPatient() {
-		return patient;
-	}
-
-	public void setPatient(Patient patient) {
-		this.patient = patient;
-	}
-
-	@Override
-	public String toString() {
-		return "Appointment [id=" + id + ", date=" + date + ", doctor="
-				+ doctor + ", patient=" + patient + "]";
-	}
+	@Column
+	private long patientId;
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((date == null) ? 0 : date.hashCode());
-		result = prime * result + ((doctor == null) ? 0 : doctor.hashCode());
+		result = prime * result + (int) (doctorId ^ (doctorId >>> 32));
 		result = prime * result + (int) (id ^ (id >>> 32));
-		result = prime * result + ((patient == null) ? 0 : patient.hashCode());
+		result = prime * result + (int) (patientId ^ (patientId >>> 32));
 		return result;
 	}
 
@@ -89,18 +50,50 @@ public class Appointment {
 				return false;
 		} else if (!date.equals(other.date))
 			return false;
-		if (doctor == null) {
-			if (other.doctor != null)
-				return false;
-		} else if (!doctor.equals(other.doctor))
+		if (doctorId != other.doctorId)
 			return false;
 		if (id != other.id)
 			return false;
-		if (patient == null) {
-			if (other.patient != null)
-				return false;
-		} else if (!patient.equals(other.patient))
+		if (patientId != other.patientId)
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "Appointment [id=" + id + ", date=" + date.toString() + ", doctorId="
+				+ doctorId + ", patientId=" + patientId + "]";
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(long id) {
+		this.id = id;
+	}
+
+	public Date getDate() {
+		return date;
+	}
+
+	public void setDate(Date date) {
+		this.date = date;
+	}
+
+	public long getDoctorId() {
+		return doctorId;
+	}
+
+	public void setDoctorId(long doctorId) {
+		this.doctorId = doctorId;
+	}
+
+	public long getPatientId() {
+		return patientId;
+	}
+
+	public void setPatientId(long patientId) {
+		this.patientId = patientId;
 	}
 }
