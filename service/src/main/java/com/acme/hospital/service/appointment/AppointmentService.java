@@ -8,7 +8,7 @@ import com.acme.hospital.domain.Patient;
 
 public interface AppointmentService {
 
-	public boolean createAppointment(Doctor doctor, Patient patient, Date date);
+	public void createAppointment(Doctor doctor, Patient patient, Date date);
 
-	public boolean changeAppointmentDate(Appointment appointment, Date newDate);
+	public void changeAppointmentDate(Appointment appointment, Date newDate);
 }
