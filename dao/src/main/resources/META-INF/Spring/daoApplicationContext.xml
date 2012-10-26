@@ -36,8 +36,7 @@
 		</property>
 	</bean>
 
-	<tx:annotation-driven transaction-manager="transactionManager"
-		order="100" />
+	<tx:annotation-driven transaction-manager="transactionManager"/>
 
 	<bean id="transactionManager"
 		class="org.springframework.orm.hibernate3.HibernateTransactionManager">

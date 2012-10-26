@@ -27,7 +27,7 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		session.saveOrUpdate(appointment);
+		session.save(appointment);
 		
 		session.getTransaction().commit();
 		session.close();
@@ -35,7 +35,13 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 
 	@Override
 	public void updateAppointment(Appointment appointment) {
-		persistAppointment(appointment);
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		session.saveOrUpdate(appointment);
+		
+		session.getTransaction().commit();
+		session.close();
 	}
 
 	@Override

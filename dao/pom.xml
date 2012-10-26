@@ -16,30 +16,4 @@
 		</dependency>
 	</dependencies>
 	
-<!-- 	For test the module from console -->
-	<build>
-		<plugins>
-			<plugin>
-				<groupId>org.apache.maven.plugins</groupId>
-				<artifactId>maven-jar-plugin</artifactId>
-				<version>2.3.2</version>
-				<configuration>
-					<archive>
-						<manifest>
-							<mainClass>com.acme.hospital.dao.TestBootStrap</mainClass>
-							<addClasspath>true</addClasspath>
-						</manifest>
-					</archive>
-				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.2.1</version>
-				<configuration>
-					<mainClass>com.acme.hospital.dao.TestBootStrap</mainClass>
-				</configuration>
-			</plugin>
-		</plugins>
-	</build>
 </project>
