@@ -8,7 +8,7 @@ import com.acme.hospital.domain.Patient;
 import com.acme.hospital.dto.NeighborDates;
 
 public interface AppointmentFacade {
-
+	
 	public boolean createAppointment(Doctor doctor, Patient patient, Date date);
 
 	public NeighborDates getFreeNeighborDates(Doctor doctor, Date date);

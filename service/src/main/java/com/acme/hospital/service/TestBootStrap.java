@@ -7,16 +7,15 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
-import com.acme.hospital.service.appointment.AppointmentService;
-import com.acme.hospital.service.appointment.SimpleAppointmentService;
-import com.acme.hospital.service.date.DateSlotService;
-import com.acme.hospital.service.date.SimpleDateSlotService;
 
 public class TestBootStrap {
 	
 	public static void main(String[] args){
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("META-INF/Spring/*.xml");
-		AppointmentService as=ctx.getBean(SimpleAppointmentService.class);
+//		AppointmentService as=ctx.getBean(SimpleAppointmentService.class);
+//		DateSlotService dss = ctx.getBean(SimpleDateSlotService.class);
+		
+		AppointmentFacade af = ctx.getBean(SimpleAppointmentFacade.class);
 		
 		
 		Doctor d1=new Doctor();
@@ -40,11 +39,8 @@ public class TestBootStrap {
 		Date date = new Date();
 		Date date2 = new Date(6644L);
 		
-		as.createAppointment(d1, p1, date);
-		
-		DateSlotService dss = ctx.getBean(SimpleDateSlotService.class);
-		System.out.println("Is it goooood?" + dss.isSlotFree(d1, date));
-		System.out.println("Is it goooood?" + dss.isSlotFree(d1, date2));
+		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, date));
+		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, date));
 		
 	}
 }
