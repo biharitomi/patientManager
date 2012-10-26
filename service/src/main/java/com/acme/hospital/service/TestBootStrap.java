@@ -12,10 +12,8 @@ public class TestBootStrap {
 	
 	public static void main(String[] args){
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("META-INF/Spring/*.xml");
-//		AppointmentService as=ctx.getBean(SimpleAppointmentService.class);
-//		DateSlotService dss = ctx.getBean(SimpleDateSlotService.class);
 		
-		AppointmentFacade af = ctx.getBean(SimpleAppointmentFacade.class);
+		AppointmentFacade af = ctx.getBean(AppointmentFacade.class);
 		
 		
 		Doctor d1=new Doctor();
@@ -37,7 +35,7 @@ public class TestBootStrap {
 		p2.setMobileNumber("+36301233222");
 		
 		Date date = new Date();
-		Date date2 = new Date(6644L);
+//		Date date2 = new Date(6644L);
 		
 		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, date));
 		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, date));

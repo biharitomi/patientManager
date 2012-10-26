@@ -5,7 +5,6 @@ import java.util.Date;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-import com.acme.hospital.dao.hibernate.HibernateAppointmentDao;
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
@@ -17,7 +16,7 @@ public class TestBootStrap {
 	 */
 	public static void main(String[] args) {
 		ApplicationContext ctx = new ClassPathXmlApplicationContext("META-INF/Spring/*.xml");
-		AppointmentDAO appointmentDAO=ctx.getBean(HibernateAppointmentDao.class);
+		AppointmentDAO appointmentDAO=ctx.getBean(AppointmentDAO.class);
 
 		Doctor d1=new Doctor();
 		d1.setId(1L);
@@ -58,7 +57,7 @@ public class TestBootStrap {
 		}
 		
 		appointmentDAO.deleteAppointment(a2);
-		a1.setDate(new Date(100000L));
+		a1.setDate(new Date(10000L));
 		appointmentDAO.updateAppointment(a1);
 		System.out.println(appointmentDAO.getDoctorAppointments(d1));
 	}

@@ -30,7 +30,7 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		session.save(appointment);
 		
 		session.getTransaction().commit();
-		session.close();
+		session.close();	
 	}
 
 	@Override

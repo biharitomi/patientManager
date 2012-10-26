@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
@@ -22,6 +23,7 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	DateSlotService dateSlotService;
 	
 	@Override
+	@Transactional
 	public boolean createAppointment(Doctor doctor, Patient patient, Date date) {
 		boolean isFree=false;
 		isFree=dateSlotService.isSlotFree(doctor, date);
