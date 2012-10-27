@@ -4,10 +4,11 @@ import javax.faces.bean.ManagedBean;
 
 @ManagedBean(name="LoginManagedBean")
 public class LoginManagedBean {
-	private String userName;
-	private String password;
+	private String userName="alma";
+	private String password="";
 	
 	public String login(){
+		
 		System.out.println("OK Button clicked!");
 		return "/views/index?faces-redirect=true";
 	}
