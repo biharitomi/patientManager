@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui">
+<h:head>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+	<title>Insert title here</title>
+</h:head>
+<h:body>
+	<p:panel style="margin:auto; width:500px;">
+		<f:facet name="header">
+			<h:outputText value="Welcome in Patient Manager System!" />
+		</f:facet>
+		<h:form id="loginForm">
+			<p:panelGrid columns="2" style="margin: auto; font-size:14px;">
+				<f:facet name="header">
+					<h:outputText value="Login" />
+				</f:facet>
+
+				<h:outputText value="Username:" />
+				<p:inputText id="userLogin" label="Username" value="#{LoginManagedBean.userName}" maxlength="20" />
+
+				<h:outputText value="Password:" />
+				<p:password id="passwordLogin" value="#{LoginManagedBean.password}" label="Password" maxlength="20" feedback="false"/>
+
+				<f:facet name="footer">
+					<p:commandButton value="OK" action="#{LoginManagedBean.login}" ajax="false" style="font-size:12px;"/>
+				</f:facet>
+			</p:panelGrid>
+		</h:form>
+	</p:panel>
+</h:body>
+</html>
