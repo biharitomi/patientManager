@@ -8,7 +8,8 @@ public class LoginManagedBean {
 	private String password;
 	
 	public String login(){
-		return "";
+		System.out.println("OK Button clicked!");
+		return "/views/index?faces-redirect=true";
 	}
 
 	public String getUserName() {
