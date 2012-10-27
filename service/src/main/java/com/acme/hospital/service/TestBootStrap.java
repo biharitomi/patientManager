@@ -39,6 +39,12 @@ public class TestBootStrap {
 		
 		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, date));
 		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, date));
+		try{
+			System.out.println(af.getDoctorAllAppointments(d2));
+		}catch(Throwable e){
+			e.printStackTrace();
+		}
+		System.out.println(af.getDoctorAllAppointments(d1));
 		
 	}
 }

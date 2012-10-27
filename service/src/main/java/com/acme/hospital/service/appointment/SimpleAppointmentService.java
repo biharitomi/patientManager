@@ -1,5 +1,6 @@
 package com.acme.hospital.service.appointment;
 
+import java.util.Collection;
 import java.util.Date;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -41,5 +42,15 @@ public class SimpleAppointmentService implements AppointmentService {
 
 	public void setAppointmentDAO(AppointmentDAO appointmentDAO) {
 		this.appointmentDAO = appointmentDAO;
+	}
+
+	@Override
+	public Collection<Appointment> getDoctorAllAppointments(Doctor doctor) {
+		return appointmentDAO.getDoctorAppointments(doctor);
+	}
+
+	@Override
+	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date) {
+		return appointmentDAO.getDoctorAppointmentByDate(doctor, date);
 	}
 }

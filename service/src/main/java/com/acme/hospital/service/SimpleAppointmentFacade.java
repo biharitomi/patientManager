@@ -1,6 +1,9 @@
 package com.acme.hospital.service;
 
+import java.util.Collection;
 import java.util.Date;
+
+import javax.persistence.NoResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,7 +26,7 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	DateSlotService dateSlotService;
 	
 	@Override
-	@Transactional
+	@Transactional(rollbackFor=NoResultException.class)
 	public boolean createAppointment(Doctor doctor, Patient patient, Date date) {
 		boolean isFree=false;
 		isFree=dateSlotService.isSlotFree(doctor, date);
@@ -48,6 +51,16 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	@Override
 	public void changeWorkingDay(Doctor doctor, Date sourceDate, Date targetDay) {
 
+	}
+
+	@Override
+	public Collection<Appointment> getDoctorAllAppointments(Doctor doctor) {
+		return appointmentService.getDoctorAllAppointments(doctor);
+	}
+
+	@Override
+	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date) {
+		return appointmentService.getDoctorAppointmentByDate(doctor, date);
 	}
 
 }
