@@ -1,4 +1,4 @@
-package com.acme.hospital;
+package com.acme.hospital.web.managedbeans;
 
 import javax.faces.bean.ManagedBean;
 

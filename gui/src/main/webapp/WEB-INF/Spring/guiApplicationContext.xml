@@ -4,12 +4,27 @@
 	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xmlns:security="http://www.springframework.org/schema/security"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-		http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
-		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd
-		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd">
-	
-	
-	
-	
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
+		http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-3.1.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.1.xsd">
+
+	<!-- Root Context: defines shared resources visible to all other web components -->
+<!-- 	<security:http auto-config="true"> -->
+<!-- 		<security:intercept-url pattern="/resources/**" access="permitAll"/> -->
+<!--         <security:intercept-url pattern="/faces/*" access="permitAll"/> -->
+<!--         <security:intercept-url pattern="/faces/views/**" access="isAuthenticated()" /> -->
+<!--         <security:form-login login-page="/faces/login.xhtml"/> -->
+<!--     </security:http> -->
+    
+<!-- 	<security:authentication-manager> -->
+<!--     <security:authentication-provider> -->
+<!--       <security:user-service> -->
+<!--         <security:user name="jimi" password="jimispassword" authorities="ROLE_USER, ROLE_ADMIN" /> -->
+<!--         <security:user name="bob" password="bobspassword" authorities="ROLE_USER" /> -->
+<!--         <security:user name="admin" password="admin" authorities="ROLE_USER" /> -->
+<!--       </security:user-service> -->
+<!--     </security:authentication-provider> -->
+<!--   </security:authentication-manager> -->
+  
 </beans>
