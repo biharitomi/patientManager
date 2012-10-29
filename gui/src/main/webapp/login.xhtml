@@ -20,13 +20,13 @@
 				</f:facet>
 
 				<h:outputText value="Username:" />
-				<p:inputText id="userLogin" label="Username" value="#{LoginManagedBean.userName}" maxlength="20" />
+				<p:inputText id="j_username" label="Username" value="#{LoginManagedBean.userName}" maxlength="20" />
 
 				<h:outputText value="Password:" />
-				<p:password id="passwordLogin" value="#{LoginManagedBean.password}" label="Password" maxlength="20" feedback="false"/>
+				<p:password id="j_password" value="#{LoginManagedBean.password}" label="Password" maxlength="20" feedback="false"/>
 
 				<f:facet name="footer">
-					<p:commandButton value="OK" action="#{LoginManagedBean.login}" ajax="false" style="font-size:12px;"/>
+					<p:commandButton id="login" value="OK" action="#{LoginManagedBean.login}" ajax="false" style="font-size:12px;"/>
 				</f:facet>
 			</p:panelGrid>
 		</h:form>
