@@ -13,6 +13,14 @@
 		<f:facet name="header">
 			<h:outputText value="Dashboard" />
 		</f:facet>
+
+		<h:form id="appointmentCreationForm">
+			<p:calendar value="#{createAppointmentMB.date}"
+				pattern="MM/dd/yyyy HH:mm" />
+			<br />
+
+			<p:commandButton value="Submit" />
+		</h:form>
 	</p:panel>
 </h:body>
 </html>

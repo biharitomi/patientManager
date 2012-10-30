@@ -21,4 +21,6 @@ public interface AppointmentFacade {
 	public Collection<Appointment> getDoctorAllAppointments(Doctor doctor);
 
 	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date);
+	
+	public Collection<Patient> getAllPatients();
 }

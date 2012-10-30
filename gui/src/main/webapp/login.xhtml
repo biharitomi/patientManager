@@ -3,7 +3,8 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui">
+	xmlns:p="http://primefaces.org/ui"
+	xmlns:c="http://www.springframework.org/schema/c">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Patient Manager</title>
@@ -13,20 +14,29 @@
 		<f:facet name="header">
 			<h:outputText value="Welcome in Patient Manager System!" />
 		</f:facet>
+
+		<h:form id="form1">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="true" />
+		</h:form>
+
 		<h:form id="loginForm">
 			<p:panelGrid columns="2" style="margin: auto; font-size:14px;">
 				<f:facet name="header">
 					<h:outputText value="Login" />
 				</f:facet>
-
 				<h:outputText value="Username:" />
-				<p:inputText id="j_username" label="Username" value="#{LoginManagedBean.userName}" maxlength="20" />
+				<p:inputText id="j_username" label="Username"
+					value="#{LoginManagedBean.userName}" maxlength="20" />
 
 				<h:outputText value="Password:" />
-				<p:password id="j_password" value="#{LoginManagedBean.password}" label="Password" maxlength="20" feedback="false"/>
+				<p:password id="j_password" value="#{LoginManagedBean.password}"
+					label="Password" maxlength="20" feedback="false" />
 
 				<f:facet name="footer">
-					<p:commandButton id="login" value="OK" action="#{LoginManagedBean.login}" ajax="false" style="font-size:12px;"/>
+					<p:commandButton id="login" value="OK" 
+						action="#{LoginManagedBean.login}" ajax="false"
+						style="font-size:12px;" />
 				</f:facet>
 			</p:panelGrid>
 		</h:form>

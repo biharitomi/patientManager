@@ -15,6 +15,7 @@ import com.acme.hospital.domain.Patient;
 import com.acme.hospital.dto.NeighborDates;
 import com.acme.hospital.service.appointment.AppointmentService;
 import com.acme.hospital.service.date.DateSlotService;
+import com.acme.hospitalManager.repository.PatientRepository;
 
 @Component
 public class SimpleAppointmentFacade implements AppointmentFacade {
@@ -24,6 +25,9 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	
 	@Autowired
 	DateSlotService dateSlotService;
+	
+	@Autowired
+	PatientRepository patientRepository;
 	
 	@Override
 	@Transactional(rollbackFor=NoResultException.class)
@@ -61,6 +65,12 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	@Override
 	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date) {
 		return appointmentService.getDoctorAppointmentByDate(doctor, date);
+	}
+
+	@Override
+	public Collection<Patient> getAllPatients() {
+		patientRepository.getAllPatient();
+		return null;
 	}
 
 }

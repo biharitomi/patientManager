@@ -1,8 +1,11 @@
 package com.acme.hospital.web.managedbeans;
 
+import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
+import javax.faces.context.FacesContext;
+import javax.faces.event.ActionEvent;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -26,18 +29,20 @@ public class LoginManagedBean {
 			Authentication result = am.authenticate(request);
 			SecurityContextHolder.getContext().setAuthentication(result);
 		} catch (BadCredentialsException e) {
+			FacesContext.getCurrentInstance().addMessage(
+					null,
+					new FacesMessage(FacesMessage.SEVERITY_WARN, "",
+							"Wrong username or password!"));
 			return "login";
 		}
 		return "views/index";
 	}
 
 	public String getUserName() {
-		System.out.println("get username");
 		return userName;
 	}
 
 	public void setUserName(String userName) {
-		System.out.println("set username = " + userName);
 		this.userName = userName;
 	}
 
@@ -46,7 +51,6 @@ public class LoginManagedBean {
 	}
 
 	public void setPassword(String password) {
-		System.out.println("set password = " + password);
 		this.password = password;
 	}
 
