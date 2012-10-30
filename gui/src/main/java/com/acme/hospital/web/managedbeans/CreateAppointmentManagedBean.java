@@ -14,7 +14,7 @@ import com.acme.hospital.web.adapter.AppointmentFacadeSpringAdapter;
 @SessionScoped
 public class CreateAppointmentManagedBean {
 	
-	@ManagedProperty(value = "#{serviceAdapter}")
+	@ManagedProperty(value = "#{appointmentFacadeSpringAdapter}")
 	private AppointmentFacadeSpringAdapter afsa;
 	
 	private Date date;

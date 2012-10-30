@@ -6,6 +6,7 @@ import java.util.Date;
 import javax.persistence.NoResultException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -27,6 +28,7 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	private DateSlotService dateSlotService;
 	
 	@Autowired
+	@Qualifier("hibernatePatientRepository")
 	private PatientRepository patientRepository;
 	
 	@Override

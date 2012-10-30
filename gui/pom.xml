@@ -24,11 +24,6 @@
 	
 	<dependencies>
 		<dependency>
-			<groupId>com.acme.hospital</groupId>
-			<artifactId>service</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
-		<dependency>
 			<groupId>com.sun.faces</groupId>
 			<artifactId>jsf-api</artifactId>
 			<version>2.1.2</version>
@@ -63,5 +58,15 @@
 		</dependency>
 
 
+		<dependency>
+			<groupId>com.acme.hospital</groupId>
+			<artifactId>common</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
+		<dependency>
+			<groupId>com.acme.hospital</groupId>
+			<artifactId>service</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+		</dependency>
 	</dependencies>
 </project>

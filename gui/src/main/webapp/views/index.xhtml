@@ -13,7 +13,7 @@
 		<f:facet name="header">
 			<h:outputText value="Dashboard" />
 		</f:facet>
-		<p:dataTable var="patient" value="#{createAppointmentMB.allPatients}" selection="#{createAppointmentMB.selectedPatient}" selectionMode="single">
+		<p:dataTable var="patient" value="#{createAppointmentMB.allPatients}" selection="#{createAppointmentMB.selectedPatient}" selectionMode="single" id="patients" rowKey="#{patient.id}">
 			
 			<p:column headerText="Id">  
 	            #{patient.id}  
