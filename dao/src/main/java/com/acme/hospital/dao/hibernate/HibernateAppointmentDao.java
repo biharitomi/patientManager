@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.acme.hospital.dao.AppointmentDAO;
@@ -20,6 +21,7 @@ import com.acme.hospital.domain.Doctor;
 public class HibernateAppointmentDao implements AppointmentDAO {
 	
 	@Autowired
+	@Qualifier("sessionFactory")
 	private SessionFactory sessionFactory;
 	
 	@Override

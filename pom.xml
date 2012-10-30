@@ -5,7 +5,7 @@
 	<artifactId>patientManager</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>pom</packaging>
-	
+
 	<modules>
 		<module>dao</module>
 		<module>common</module>
@@ -20,7 +20,7 @@
 			<url>http://repository.jboss.org/nexus/content/groups/public/</url>
 		</repository>
 	</repositories>
-	
+
 	<properties>
 		<spring.version>3.1.0.RELEASE</spring.version>
 		<slf4j.version>1.5.10</slf4j.version>
@@ -76,9 +76,9 @@
 			<artifactId>spring-webmvc</artifactId>
 			<version>${spring.version}</version>
 		</dependency>
-		
-		
-		
+
+
+
 		<dependency>
 			<groupId>javax.transaction</groupId>
 			<artifactId>jta</artifactId>
@@ -173,8 +173,14 @@
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-simple</artifactId>
-			<version>1.6.6</version>
+			<version>${slf4j.version}</version>
 		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>log4j-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+
 
 		<!-- <dependency> -->
 		<!-- <groupId>ch.qos.logback</groupId> -->
@@ -187,7 +193,7 @@
 		<!-- <artifactId>logback-core</artifactId> -->
 		<!-- <version>1.0.6</version> -->
 		<!-- </dependency> -->
-		
+
 		<!-- spring security -->
 		<dependency>
 			<groupId>org.springframework.security</groupId>
@@ -244,6 +250,6 @@
 
 		</plugins>
 	</build>
-	
+
 
 </project>

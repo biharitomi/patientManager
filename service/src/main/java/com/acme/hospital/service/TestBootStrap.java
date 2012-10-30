@@ -11,7 +11,7 @@ import com.acme.hospital.domain.Patient;
 public class TestBootStrap {
 	
 	public static void main(String[] args){
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("META-INF/Spring/*.xml");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("META-INF/Spring/serviceApplicationContext.xml");
 		
 		AppointmentFacade af = ctx.getBean(AppointmentFacade.class);
 		
@@ -45,6 +45,8 @@ public class TestBootStrap {
 			e.printStackTrace();
 		}
 		System.out.println(af.getDoctorAllAppointments(d1));
+		
+		System.out.println(af.getAllPatients());
 		
 	}
 }

@@ -10,6 +10,7 @@ import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 
 import com.acme.hospital.domain.Patient;
@@ -19,6 +20,7 @@ import com.acme.hospitalManager.repository.PatientRepository;
 public class HibernatePatientRepository implements PatientRepository {
 
 	@Autowired
+	@Qualifier("sessionFactory_h")
 	private SessionFactory sessionFactory;
 
 	public Patient getPatientById(long id) {

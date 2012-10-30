@@ -17,17 +17,17 @@ import com.acme.hospital.service.appointment.AppointmentService;
 import com.acme.hospital.service.date.DateSlotService;
 import com.acme.hospitalManager.repository.PatientRepository;
 
-@Component
+@Component("sipmleAppointmentFacade")
 public class SimpleAppointmentFacade implements AppointmentFacade {
 	
 	@Autowired
-	AppointmentService appointmentService;
+	private AppointmentService appointmentService;
 	
 	@Autowired
-	DateSlotService dateSlotService;
+	private DateSlotService dateSlotService;
 	
 	@Autowired
-	PatientRepository patientRepository;
+	private PatientRepository patientRepository;
 	
 	@Override
 	@Transactional(rollbackFor=NoResultException.class)
@@ -69,8 +69,31 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 
 	@Override
 	public Collection<Patient> getAllPatients() {
-		patientRepository.getAllPatient();
-		return null;
+		return patientRepository.getAllPatient();
+	}
+
+	public AppointmentService getAppointmentService() {
+		return appointmentService;
+	}
+
+	public void setAppointmentService(AppointmentService appointmentService) {
+		this.appointmentService = appointmentService;
+	}
+
+	public DateSlotService getDateSlotService() {
+		return dateSlotService;
+	}
+
+	public void setDateSlotService(DateSlotService dateSlotService) {
+		this.dateSlotService = dateSlotService;
+	}
+
+	public PatientRepository getPatientRepository() {
+		return patientRepository;
+	}
+
+	public void setPatientRepository(PatientRepository patientRepository) {
+		this.patientRepository = patientRepository;
 	}
 
 }
