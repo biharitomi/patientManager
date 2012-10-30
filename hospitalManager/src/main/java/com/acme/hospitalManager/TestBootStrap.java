@@ -11,7 +11,7 @@ import com.acme.hospitalManager.repository.hibernate.HibernatePatientRepository;
 public class TestBootStrap {
 
 	public static void main(String[] args) {
-		ApplicationContext ctx = new ClassPathXmlApplicationContext("*.xml");
+		ApplicationContext ctx = new ClassPathXmlApplicationContext("/META-INF/Spring/*.xml");
 		HibernatePatientRepository hpr = ctx
 				.getBean(HibernatePatientRepository.class);
 		System.out.println(hpr.getPatientById(1L).toString());
