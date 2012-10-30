@@ -3,8 +3,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:c="http://www.springframework.org/schema/c">
+	xmlns:p="http://primefaces.org/ui">
 <h:head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 	<title>Patient Manager</title>
@@ -16,8 +15,9 @@
 		</f:facet>
 
 		<h:form id="form1">
-			<p:messages id="messages" showDetail="true" autoUpdate="true"
-				closable="true" />
+			<div>
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+			</div>
 		</h:form>
 
 		<h:form id="loginForm">
@@ -32,6 +32,7 @@
 				<h:outputText value="Password:" />
 				<p:password id="j_password" value="#{LoginManagedBean.password}"
 					label="Password" maxlength="20" feedback="false" />
+				
 
 				<f:facet name="footer">
 					<p:commandButton id="login" value="OK" 

@@ -31,7 +31,7 @@ public class LoginManagedBean {
 		} catch (BadCredentialsException e) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN, "",
+					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"Wrong username or password!"));
 			return "login";
 		}
