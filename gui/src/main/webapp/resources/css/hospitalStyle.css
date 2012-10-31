@@ -1,5 +1,9 @@
 @CHARSET "UTF-8";
 
+body{
+	font-size: 12px;
+}
+
 #dashboardLeftDiv{
 	width: 50%;
 	height: auto;
@@ -15,9 +19,18 @@
 /* 	font-size: 16px; */
 }
 
-.dataTable{
+.dataDiv{
 	font-size: 14px !important;
 	width: auto;
+	padding: 20px;
+}
+
+.headersText{
+	font-size: 20px !important;
+}
+
+.dataDiv .ui-datepicker{
+	font-size: 12px !important;
 }
 
 .patientsDataTable .ui-datatable-header{

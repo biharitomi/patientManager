@@ -13,10 +13,10 @@
 	<p:panel>
 		<f:facet name="header">
 			<h:form id="dashboardForm">
-				<div id="dashboardLeftDiv">
+				<div id="dashboardLeftDiv" class="headersText">
 					<h:outputText value="Dashboard" />
 				</div>
-				<div id="dashboardRightDiv">
+				<div id="dashboardRightDiv" class="headersText">
 					<h:outputText value="Logged in: #{LoginManagedBean.loggedInUser}"/>
 					<p:spacer width="40" height="5"/>
 					<p:commandButton id="logout" action="#{LoginManagedBean.logout}" ajax="false" type="submit" value="Log out" style="height:25px; font-size: 13px;"></p:commandButton>
@@ -25,58 +25,74 @@
 		</f:facet>
 		
 		<h:form id="appointmentsForm">
-			<p:dataTable styleClass="dataTable" var="appointment" value="#{createAppointmentMB.doctorAppointments}" selection="#{createAppointmentMB.selectedAppointment}" selectionMode="single" id="appointments" rowKey="#{appointment.id}">
-				<f:facet name="header">
-					<h:outputText value="Appointnemts:" />
-				</f:facet>
+			<div id="appointmentsDiv" class="dataDiv">
+				<p:dataTable var="appointment" value="#{createAppointmentMB.doctorAppointments}" selection="#{createAppointmentMB.selectedAppointment}" selectionMode="single" id="appointments" rowKey="#{appointment.id}">
+					<f:facet name="header">
+						<div class="headersText">
+							<h:outputText value="Appointnemts:" />
+						</div>
+					</f:facet>
+					
+					<p:column headerText="Id">  
+			            #{appointment.id}  
+			        </p:column>
+	
+					<p:column headerText="Date">  
+			            #{appointment.date}  
+			        </p:column>
+			        
+			        <p:column headerText="Patient ID">  
+			            #{appointment.patient.id}  
+			        </p:column>
+			        
+			        <p:column headerText="Name">  
+			            #{appointment.patient.name}  
+			        </p:column>
+	
+					<p:column headerText="Mobile Number">  
+			            #{appointment.patient.mobileNumber}  
+			        </p:column>
 				
-				<p:column headerText="Id">  
-		            #{appointment.id}  
-		        </p:column>
-
-				<p:column headerText="Date">  
-		            #{appointment.date}  
-		        </p:column>
-		        
-		        <p:column headerText="Patient ID">  
-		            #{appointment.patient.id}  
-		        </p:column>
-		        
-		        <p:column headerText="Name">  
-		            #{appointment.patient.name}  
-		        </p:column>
-
-				<p:column headerText="Mobile Number">  
-		            #{appointment.patient.mobileNumber}  
-		        </p:column>
-
-			</p:dataTable>
+				</p:dataTable>
+				<br /><br />
+				<p:commandButton id="appointmentCreationButton" value="Create appointment" onclick="appointmentCreationDialog.show()" />
+			</div>
 		</h:form>		
 
 		<h:form id="appointmentCreationForm">
-			<p:dataTable styleClass="dataTable" var="patient" value="#{createAppointmentMB.allPatients}" selection="#{createAppointmentMB.selectedPatient}" selectionMode="single" id="patients" rowKey="#{patient.id}">
-				<f:facet name="header">
-					<h:outputText value="Patients:" />
-				</f:facet>
-				
-				<p:column headerText="Id">  
-		            #{patient.id}  
-		        </p:column>
-
-				<p:column headerText="Name">  
-		            #{patient.name}  
-		        </p:column>
-
-				<p:column headerText="Mobile Number">  
-		            #{patient.mobileNumber}  
-		        </p:column>
-
-			</p:dataTable>
-
-			<p:calendar value="#{createAppointmentMB.date}"
-				pattern="MM/dd/yyyy HH:mm" />
-			<br />
-			<p:commandButton value="Submit" action="#{createAppointmentMB.createAppointment}" />
+			<p:dialog widgetVar="appointmentCreationDialog" modal="true" draggable="false" position="center center" width="500" resizable="false" id="appointmentCreationDialog">
+					<f:facet name="header">
+						<div class="headersText">
+							<h:outputText value="Create appointment" />
+						</div>
+					</f:facet>
+					<div id="appointmentCreationDiv" class="dataDiv"> 
+						<p:dataTable var="patient" value="#{createAppointmentMB.allPatients}" selection="#{createAppointmentMB.selectedPatient}" selectionMode="single" id="patients" rowKey="#{patient.id}">
+							<f:facet name="header">
+								<div class="headersText">
+									<h:outputText value="Patients:" />
+								</div>
+							</f:facet>
+							
+							<p:column headerText="Id">  
+					            #{patient.id}  
+					        </p:column>
+			
+							<p:column headerText="Name">  
+					            #{patient.name}  
+					        </p:column>
+			
+							<p:column headerText="Mobile Number">  
+					            #{patient.mobileNumber}  
+					        </p:column>
+			
+						</p:dataTable>
+						<br /><br />
+						<h:outputText value="Appointment date: "/> <p:calendar value="#{createAppointmentMB.date}" pattern="MM/dd/yyyy HH:mm" />
+						<br /><br />
+						<p:commandButton value="Create" action="#{createAppointmentMB.createAppointment}" oncomplete="appointmentCreationDialog.hide()"/>
+					</div>	
+			</p:dialog>
 		</h:form>
 	</p:panel>
 </h:body>
