@@ -23,9 +23,38 @@
 				</div>
 			</h:form>
 		</f:facet>
+		
+		<h:form id="appointmentsForm">
+			<p:dataTable styleClass="dataTable" var="appointment" value="#{createAppointmentMB.doctorAppointments}" selection="#{createAppointmentMB.selectedAppointment}" selectionMode="single" id="appointments" rowKey="#{appointment.id}">
+				<f:facet name="header">
+					<h:outputText value="Appointnemts:" />
+				</f:facet>
+				
+				<p:column headerText="Id">  
+		            #{appointment.id}  
+		        </p:column>
+
+				<p:column headerText="Date">  
+		            #{appointment.date}  
+		        </p:column>
+		        
+		        <p:column headerText="Patient ID">  
+		            #{appointment.patient.id}  
+		        </p:column>
+		        
+		        <p:column headerText="Name">  
+		            #{appointment.patient.name}  
+		        </p:column>
+
+				<p:column headerText="Mobile Number">  
+		            #{appointment.patient.mobileNumber}  
+		        </p:column>
+
+			</p:dataTable>
+		</h:form>		
 
 		<h:form id="appointmentCreationForm">
-			<p:dataTable styleClass="patientsDataTable" var="patient" value="#{createAppointmentMB.allPatients}" selection="#{createAppointmentMB.selectedPatient}" selectionMode="single" id="patients" rowKey="#{patient.id}">
+			<p:dataTable styleClass="dataTable" var="patient" value="#{createAppointmentMB.allPatients}" selection="#{createAppointmentMB.selectedPatient}" selectionMode="single" id="patients" rowKey="#{patient.id}">
 				<f:facet name="header">
 					<h:outputText value="Patients:" />
 				</f:facet>
