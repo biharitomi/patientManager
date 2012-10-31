@@ -6,6 +6,8 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -16,6 +18,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 @ManagedBean(name = "LoginManagedBean")
 @SessionScoped
 public class LoginManagedBean {
+	private static Logger logger=LoggerFactory.getLogger(LoginManagedBean.class);
+	
 	private String userName = "";
 	private String password = "";
 	private String loggedInUser="";
@@ -43,13 +47,13 @@ public class LoginManagedBean {
 		} else {
 			loggedInUser = principal.toString();
 		}
-		System.out.println("+++++++++++ LOGIN was successfully for "+loggedInUser+" ++++++++");
+		logger.info("+++++++++++ LOGIN was successfully for "+loggedInUser+" ++++++++");
 		return "/views/index?faces-redirect=true";
 	}
 	
 	public String logout(){
 		SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
-		System.out.println("******** LOGOUT was successfully for "+loggedInUser+" *******");
+		logger.info("******** LOGOUT was successfully for "+loggedInUser+" *******");
 		this.loggedInUser="";
 		return "/login?faces-redirect=true";
 	}
