@@ -1,5 +1,6 @@
 package com.acme.hospital.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
@@ -21,29 +22,29 @@ import com.acme.hospitalManager.repository.PatientRepository;
 
 @Component("sipmleAppointmentFacade")
 public class SimpleAppointmentFacade implements AppointmentFacade {
-	
+
 	@Autowired
 	private AppointmentService appointmentService;
-	
+
 	@Autowired
 	private DateSlotService dateSlotService;
-	
+
 	@Autowired
 	private PatientRepository patientRepository;
-	
+
 	@Autowired
 	private DoctorRepository doctorRepository;
-	
+
 	@Override
-	@Transactional(rollbackFor=NoResultException.class)
+	@Transactional(rollbackFor = NoResultException.class)
 	public boolean createAppointment(Doctor doctor, Patient patient, Date date) {
-		boolean isFree=false;
-		isFree=dateSlotService.isSlotFree(doctor, date);
-		
-		if(isFree==true){
+		boolean isFree = false;
+		isFree = dateSlotService.isSlotFree(doctor, date);
+
+		if (isFree == true) {
 			appointmentService.createAppointment(doctor, patient, date);
 		}
-		
+
 		return isFree;
 	}
 
@@ -64,7 +65,13 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 
 	@Override
 	public Collection<Appointment> getDoctorAllAppointments(Doctor doctor) {
-		return appointmentService.getDoctorAllAppointments(doctor);
+		Collection<Appointment> appointments;
+		try {
+		appointments = appointmentService.getDoctorAllAppointments(doctor);
+		} catch(NoResultException e) {
+			appointments = new ArrayList<Appointment>();
+		}
+		return appointments;
 	}
 
 	@Override
@@ -81,7 +88,7 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	public Doctor getDoctorByName(String doctorName) {
 		return doctorRepository.getDoctorByName(doctorName);
 	}
-	
+
 	public AppointmentService getAppointmentService() {
 		return appointmentService;
 	}
@@ -105,6 +112,5 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	public void setPatientRepository(PatientRepository patientRepository) {
 		this.patientRepository = patientRepository;
 	}
-
 
 }
