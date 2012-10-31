@@ -32,8 +32,12 @@
 					authorities="ROLE_USER" />
 				<security:user name="Molly" password="password"
 					authorities="ROLE_USER" />
-				<security:user name="admin" password="admin"
-					authorities="ROLE_USER, ROLE_ADMIN" />
+					<security:user name="Nelly" password="password"
+                    authorities="ROLE_USER" />
+                    <security:user name="Patrick" password="password"
+                    authorities="ROLE_USER" />
+                    <security:user name="Sally" password="password"
+                    authorities="ROLE_USER" />
 			</security:user-service>
 		</security:authentication-provider>
 	</security:authentication-manager>
