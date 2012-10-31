@@ -7,12 +7,9 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
-import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 
-import org.primefaces.context.RequestContext;
-import org.springframework.security.authentication.AuthenticationManager;
-
+import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
 import com.acme.hospital.web.adapter.AppointmentFacadeSpringAdapter;
@@ -31,12 +28,15 @@ public class CreateAppointmentManagedBean {
 
 	private Patient selectedPatient;
 
+	private Appointment selectedAppointment;
+
 	private List<Patient> allPatients;
+
+	private List<Appointment> doctorAppointments;
 
 	public void createAppointment() {
 		boolean result = false;
-		if (date == null || selectedPatient == null) {
-		} else {
+		if (!(date == null || selectedPatient == null)) {
 			String loggedInDoctorName = loginManagedBean.getLoggedInUser();
 			Doctor d = afsa.getAppointmentFacade().getDoctorByName(
 					loggedInDoctorName);
@@ -54,6 +54,14 @@ public class CreateAppointmentManagedBean {
 					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
 							"The appointment creation was unsuccessful"));
 		}
+	}
+
+	public List<Appointment> getDoctorAppointments() {
+		Doctor d = afsa.getAppointmentFacade().getDoctorByName(
+				loginManagedBean.getLoggedInUser());
+		doctorAppointments = (List<Appointment>) afsa.getAppointmentFacade()
+				.getDoctorAllAppointments(d);
+		return doctorAppointments;
 	}
 
 	public Date getDate() {
@@ -92,4 +100,13 @@ public class CreateAppointmentManagedBean {
 	public void setLoginManagedBean(LoginManagedBean loginManagedBean) {
 		this.loginManagedBean = loginManagedBean;
 	}
+
+	public Appointment getSelectedAppointment() {
+		return selectedAppointment;
+	}
+
+	public void setSelectedAppointment(Appointment selectedAppointment) {
+		this.selectedAppointment = selectedAppointment;
+	}
+
 }
