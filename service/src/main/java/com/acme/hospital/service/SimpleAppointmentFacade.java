@@ -16,6 +16,7 @@ import com.acme.hospital.domain.Patient;
 import com.acme.hospital.dto.NeighborDates;
 import com.acme.hospital.service.appointment.AppointmentService;
 import com.acme.hospital.service.date.DateSlotService;
+import com.acme.hospitalManager.repository.DoctorRepository;
 import com.acme.hospitalManager.repository.PatientRepository;
 
 @Component("sipmleAppointmentFacade")
@@ -28,8 +29,10 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	private DateSlotService dateSlotService;
 	
 	@Autowired
-	@Qualifier("hibernatePatientRepository")
 	private PatientRepository patientRepository;
+	
+	@Autowired
+	private DoctorRepository doctorRepository;
 	
 	@Override
 	@Transactional(rollbackFor=NoResultException.class)
@@ -74,6 +77,11 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 		return patientRepository.getAllPatient();
 	}
 
+	@Override
+	public Doctor getDoctorByName(String doctorName) {
+		return doctorRepository.getDoctorByName(doctorName);
+	}
+	
 	public AppointmentService getAppointmentService() {
 		return appointmentService;
 	}
@@ -97,5 +105,6 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 	public void setPatientRepository(PatientRepository patientRepository) {
 		this.patientRepository = patientRepository;
 	}
+
 
 }

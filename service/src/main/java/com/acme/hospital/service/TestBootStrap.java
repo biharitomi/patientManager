@@ -48,5 +48,7 @@ public class TestBootStrap {
 		
 		System.out.println(af.getAllPatients());
 		
+		System.out.println(af.getDoctorByName("Antony"));
+		
 	}
 }

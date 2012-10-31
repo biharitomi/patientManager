@@ -23,4 +23,6 @@ public interface AppointmentFacade {
 	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date);
 	
 	public Collection<Patient> getAllPatients();
+	
+	public Doctor getDoctorByName(String doctorName);
 }

@@ -5,23 +5,40 @@ import java.util.List;
 
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
+import javax.faces.bean.RequestScoped;
 import javax.faces.bean.SessionScoped;
 
+import org.springframework.security.authentication.AuthenticationManager;
+
+import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
 import com.acme.hospital.web.adapter.AppointmentFacadeSpringAdapter;
 
 @ManagedBean(name = "createAppointmentMB")
-@SessionScoped
+@RequestScoped
 public class CreateAppointmentManagedBean {
 	
 	@ManagedProperty(value = "#{appointmentFacadeSpringAdapter}")
 	private AppointmentFacadeSpringAdapter afsa;
+	
+	@ManagedProperty(value = "#{LoginManagedBean}")
+	private LoginManagedBean loginManagedBean;
 	
 	private Date date;
 	
 	private Patient selectedPatient;
 	
 	private List<Patient> allPatients;
+	
+	public boolean createAppointment() {
+		if(date == null || selectedPatient == null) {
+			return false;
+		} else {
+			String loggedInDoctorName = loginManagedBean.getLoggedInUser();
+			Doctor d = afsa.getAppointmentFacade().getDoctorByName(loggedInDoctorName); 
+			return afsa.getAppointmentFacade().createAppointment(d, selectedPatient, date);
+		}
+	}
 
 	public Date getDate() {
 		return date;
@@ -51,6 +68,12 @@ public class CreateAppointmentManagedBean {
 	public void setAfsa(AppointmentFacadeSpringAdapter afsa) {
 		this.afsa = afsa;
 	}
-	
-	
+
+	public LoginManagedBean getLoginManagedBean() {
+		return loginManagedBean;
+	}
+
+	public void setLoginManagedBean(LoginManagedBean loginManagedBean) {
+		this.loginManagedBean = loginManagedBean;
+	}
 }
