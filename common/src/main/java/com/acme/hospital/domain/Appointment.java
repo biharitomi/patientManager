@@ -49,7 +49,7 @@ public class Appointment {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Appointment))
 			return false;
 		Appointment other = (Appointment) obj;
 		if (date == null) {

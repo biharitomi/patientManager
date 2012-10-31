@@ -54,7 +54,7 @@ public class Doctor {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Doctor))
 			return false;
 		Doctor other = (Doctor) obj;
 		if (id != other.id)

@@ -67,7 +67,7 @@ public class Patient {
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (!(obj instanceof Patient))
 			return false;
 		Patient other = (Patient) obj;
 		if (id != other.id)
