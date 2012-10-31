@@ -26,6 +26,9 @@
 
 		<h:form id="appointmentsForm">
 			<div id="appointmentsDiv" class="dataDiv">
+				
+				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"  />
+				
 				<p:dataTable var="appointment" value="#{createAppointmentMB.doctorAppointments}" selection="#{createAppointmentMB.selectedAppointment}" selectionMode="single" id="appointments" rowKey="#{appointment.id}">
 					<f:facet name="header">
 						<div class="headersText">
@@ -60,7 +63,7 @@
 		</h:form>		
 
 		<h:form id="appointmentCreationForm">
-			<p:dialog widgetVar="appointmentCreationDialog" modal="true" draggable="false" position="center center" width="500" resizable="false" id="appointmentCreationDialog">
+			<p:dialog widgetVar="appointmentCreationDialog" modal="true" draggable="false" closable="false" position="center center" width="500" resizable="false" id="appointmentCreationDialog">
 					<f:facet name="header">
 						<div class="headersText">
 							<h:outputText value="Create appointment" />
@@ -90,7 +93,8 @@
 						<br /><br />
 						<h:outputText value="Appointment date: "/> <p:calendar value="#{createAppointmentMB.date}" pattern="MM/dd/yyyy HH:mm" />
 						<br /><br />
-						<p:commandButton value="Create" action="#{createAppointmentMB.createAppointment}" oncomplete="appointmentCreationDialog.hide()"/>
+						<p:commandButton value="Create" action="#{createAppointmentMB.createAppointment}" update=":appointmentsForm" oncomplete="appointmentCreationDialog.hide()"/>
+						<p:commandButton value="Cancel" oncomplete="appointmentCreationDialog.hide()"/>
 					</div>	
 			</p:dialog>
 		</h:form>
