@@ -43,14 +43,15 @@ public class LoginManagedBean {
 		} else {
 			loggedInUser = principal.toString();
 		}
-		
-		return "views/index?faces-redirect=true";
+		System.out.println("+++++++++++ LOGIN was successfully for "+loggedInUser+" ++++++++");
+		return "/views/index?faces-redirect=true";
 	}
 	
 	public String logout(){
 		SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
-		System.out.println("******** LOGOUT was successfully *******");
-		return "login?faces-redirect=true";
+		System.out.println("******** LOGOUT was successfully for "+loggedInUser+" *******");
+		this.loggedInUser="";
+		return "/login?faces-redirect=true";
 	}
 
 	public String getUserName() {
