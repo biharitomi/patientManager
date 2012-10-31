@@ -36,14 +36,6 @@ public class SimpleAppointmentService implements AppointmentService {
 		appointmentDAO.updateAppointment(appointment);
 	}
 
-	public AppointmentDAO getAppointmentDAO() {
-		return appointmentDAO;
-	}
-
-	public void setAppointmentDAO(AppointmentDAO appointmentDAO) {
-		this.appointmentDAO = appointmentDAO;
-	}
-
 	@Override
 	public Collection<Appointment> getDoctorAllAppointments(Doctor doctor) {
 		return appointmentDAO.getDoctorAppointments(doctor);
@@ -52,5 +44,13 @@ public class SimpleAppointmentService implements AppointmentService {
 	@Override
 	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date) {
 		return appointmentDAO.getDoctorAppointmentByDate(doctor, date);
+	}
+	
+	public AppointmentDAO getAppointmentDAO() {
+		return appointmentDAO;
+	}
+
+	public void setAppointmentDAO(AppointmentDAO appointmentDAO) {
+		this.appointmentDAO = appointmentDAO;
 	}
 }
