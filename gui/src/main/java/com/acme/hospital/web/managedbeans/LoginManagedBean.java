@@ -11,12 +11,14 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @ManagedBean(name = "LoginManagedBean")
 @SessionScoped
 public class LoginManagedBean {
 	private String userName = "";
 	private String password = "";
+	private String loggedInUser="";
 
 	@ManagedProperty(value = "#{authenticationManager}")
 	private AuthenticationManager am;
@@ -34,7 +36,21 @@ public class LoginManagedBean {
 							"Wrong username or password!"));
 			return "login";
 		}
-		return "views/index";
+		
+		Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+		if (principal instanceof UserDetails) {
+			loggedInUser = ((UserDetails)principal).getUsername();
+		} else {
+			loggedInUser = principal.toString();
+		}
+		
+		return "views/index?faces-redirect=true";
+	}
+	
+	public String logout(){
+		SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
+		System.out.println("******** LOGOUT was successfully *******");
+		return "login?faces-redirect=true";
 	}
 
 	public String getUserName() {
@@ -60,4 +76,13 @@ public class LoginManagedBean {
 	public void setAm(AuthenticationManager am) {
 		this.am = am;
 	}
+
+	public String getLoggedInUser() {
+		return loggedInUser;
+	}
+
+	public void setLoggedInUser(String loggedInUser) {
+		this.loggedInUser = loggedInUser;
+	}
+	
 }
