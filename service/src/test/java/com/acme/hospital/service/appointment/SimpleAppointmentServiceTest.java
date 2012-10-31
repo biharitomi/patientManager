@@ -1,7 +1,10 @@
 package com.acme.hospital.service.appointment;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 
+import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.BDDMockito;
@@ -63,4 +66,36 @@ public class SimpleAppointmentServiceTest {
 		Mockito.verify(appointmentDAO).updateAppointment(appointment);
 	}
 	
+	@Test
+	public void getDoctorAllAppointmentsTestShouldReturnProperly(){
+		//GIVEN
+		Doctor doctor=new Doctor();
+		Collection<Appointment> appointments=new ArrayList<Appointment>();
+		BDDMockito.given(appointmentDAO.getDoctorAppointments(doctor)).willReturn(appointments);
+		//WHEN
+		Collection<Appointment> result=underTest.getDoctorAllAppointments(doctor);
+		//THEN
+		Mockito.verify(appointmentDAO).getDoctorAppointments(doctor);
+		Assert.assertEquals(appointments, result);
+	}
+	
+	@Test
+	public void getDoctorAppointmentByDateTestShouldReturnProperly(){
+		//GIVEN
+		Doctor doctor=new Doctor();
+		Date date=new Date(30000L);
+		Appointment appointment=new Appointment();
+		BDDMockito.given(appointmentDAO.getDoctorAppointmentByDate(doctor, date)).willReturn(appointment);
+		//WHEN
+		Appointment result=underTest.getDoctorAppointmentByDate(doctor, date);
+		//THEN
+		Mockito.verify(appointmentDAO).getDoctorAppointmentByDate(doctor, date);
+		Assert.assertEquals(appointment, result);
+	}
+	
+	@Test
+	public void appointmentDAOGetterandSetterBehaviourTest(){
+		underTest.setAppointmentDAO(appointmentDAO);
+		Assert.assertEquals(appointmentDAO, underTest.getAppointmentDAO());
+	}
 }
