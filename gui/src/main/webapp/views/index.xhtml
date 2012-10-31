@@ -17,19 +17,31 @@
 					<h:outputText value="Dashboard" />
 				</div>
 				<div id="dashboardRightDiv">
-					<h:outputText value="Logged in: #{LoginManagedBean.loggedInUser}"/>
-					<p:spacer width="40" height="5"/>
-					<p:commandButton id="logout" action="#{LoginManagedBean.logout}" ajax="false" type="submit" value="Log out" style="height:25px; font-size: 13px;"></p:commandButton>
+					<h:outputText value="Logged in: #{LoginManagedBean.loggedInUser}" />
+					<p:spacer width="40" height="5" />
+					<p:commandButton id="logout" action="#{LoginManagedBean.logout}"
+						ajax="false" type="submit" value="Log out"
+						style="height:25px; font-size: 13px;"></p:commandButton>
 				</div>
 			</h:form>
 		</f:facet>
 
+		<h:form id="form1">
+			<div>
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
+			</div>
+		</h:form>
+
 		<h:form id="appointmentCreationForm">
-			<p:dataTable styleClass="patientsDataTable" var="patient" value="#{createAppointmentMB.allPatients}" selection="#{createAppointmentMB.selectedPatient}" selectionMode="single" id="patients" rowKey="#{patient.id}">
+			<p:dataTable styleClass="patientsDataTable" var="patient"
+				value="#{createAppointmentMB.allPatients}"
+				selection="#{createAppointmentMB.selectedPatient}"
+				selectionMode="single" id="patients" rowKey="#{patient.id}">
 				<f:facet name="header">
 					<h:outputText value="Patients:" />
 				</f:facet>
-				
+
 				<p:column headerText="Id">  
 		            #{patient.id}  
 		        </p:column>
@@ -47,7 +59,8 @@
 			<p:calendar value="#{createAppointmentMB.date}"
 				pattern="MM/dd/yyyy HH:mm" />
 			<br />
-			<p:commandButton value="Submit" action="#{createAppointmentMB.createAppointment}" />
+			<p:commandButton value="Submit"
+				action="#{createAppointmentMB.createAppointment}" />
 		</h:form>
 	</p:panel>
 </h:body>
