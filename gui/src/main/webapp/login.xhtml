@@ -16,7 +16,8 @@
 
 		<h:form id="form1">
 			<div>
-				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="true"/>
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="true" />
 			</div>
 		</h:form>
 
@@ -32,10 +33,12 @@
 				<h:outputText value="Password:" />
 				<p:password id="j_password" value="#{LoginManagedBean.password}"
 					label="Password" maxlength="20" feedback="false" />
-				
+
 
 				<f:facet name="footer">
-					<p:commandButton id="login" value="OK" type="submit" action="#{LoginManagedBean.login}" ajax="false"	style="font-size:12px;" />
+					<p:commandButton id="login" value="OK" type="submit"
+						action="#{LoginManagedBean.login}" ajax="false"
+						style="font-size:12px;" />
 				</f:facet>
 			</p:panelGrid>
 		</h:form>
