@@ -53,7 +53,7 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 
 	@Override
 	public NeighborDates getFreeNeighborDates(Doctor doctor, Date date) {
-		return null;
+		return dateSlotService.findFreeNeighborSlot(doctor, date);
 	}
 
 	@Override

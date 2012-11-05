@@ -7,6 +7,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
+import com.acme.hospital.dto.NeighborDates;
 
 public class TestBootStrap {
 	
@@ -35,10 +36,10 @@ public class TestBootStrap {
 		p2.setMobileNumber("+36301233222");
 		
 		Date date = new Date();
-//		Date date2 = new Date(6644L);
 		
 		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, date));
-		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, date));
+		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, new Date(date.getTime() + 1000 * 60 * 15)));
+		System.out.println("Is it goooood?" + af.createAppointment(d1, p1, new Date(date.getTime() + 1000 * 60 * 30)));
 		try{
 			System.out.println(af.getDoctorAllAppointments(d2));
 		}catch(Throwable e){
@@ -49,6 +50,11 @@ public class TestBootStrap {
 		System.out.println(af.getAllPatients());
 		
 		System.out.println(af.getDoctorByName("Antony"));
+		
+		NeighborDates nd = af.getFreeNeighborDates(d1, date);
+		System.out.println("Date is: " + date);
+		System.out.println("Next date: " + nd.getNextDate());
+		System.out.println("Previous date: " + nd.getPreviousDate());
 		
 	}
 }

@@ -17,85 +17,116 @@
 					<h:outputText value="Dashboard" />
 				</div>
 				<div id="dashboardRightDiv" class="headersText">
-					<h:outputText value="Logged in: #{LoginManagedBean.loggedInUser}"/>
-					<p:spacer width="40" height="5"/>
-					<p:commandButton id="logout" action="#{LoginManagedBean.logout}" ajax="false" type="submit" value="Log out" style="height:25px; font-size: 13px;"></p:commandButton>
+					<h:outputText value="Logged in: #{LoginManagedBean.loggedInUser}" />
+					<p:spacer width="40" height="5" />
+					<p:commandButton id="logout" action="#{LoginManagedBean.logout}"
+						ajax="false" type="submit" value="Log out"
+						style="height:25px; font-size: 13px;" />
 				</div>
 			</h:form>
 		</f:facet>
 
+		<p:dialog widgetVar="dialogPac">
+			<p:messages id="messages" showDetail="true" autoUpdate="true"
+				closable="false" />
+			<h:form id="chooseAppointmentDate">
+				<p:commandButton value="#{createAppointmentMB.previousDateAsString}" actionListener="#{createAppointmentMB.createAppointmentAtPrevoiusDate}" update=":appointmentsForm"/>
+				<p:commandButton value="#{createAppointmentMB.nextDateAsString}" actionListener="#{createAppointmentMB.createAppointmentAtNextDate}" update=":appointmentsForm"/>
+			</h:form>
+		</p:dialog>
+
 		<h:form id="appointmentsForm">
 			<div id="appointmentsDiv" class="dataDiv">
-				
-				<p:messages id="messages" showDetail="true" autoUpdate="true" closable="false" />
-				
-				<p:dataTable var="appointment" emptyMessage="No appointment available!" value="#{createAppointmentMB.doctorAppointments}" selection="#{createAppointmentMB.selectedAppointment}" selectionMode="single" id="appointments" rowKey="#{appointment.id}">
+
+				<p:messages id="messages" showDetail="true" autoUpdate="true"
+					closable="false" />
+
+				<p:dataTable var="appointment"
+					emptyMessage="No appointment available!"
+					value="#{createAppointmentMB.doctorAppointments}"
+					selection="#{createAppointmentMB.selectedAppointment}"
+					selectionMode="single" id="appointments" rowKey="#{appointment.id}">
 					<f:facet name="header">
 						<div class="headersText">
 							<h:outputText value="Appointnemts:" />
 						</div>
 					</f:facet>
-					
+
 					<p:column headerText="Id">  
 			            #{appointment.id}  
 			        </p:column>
-	
+
 					<p:column headerText="Date">  
 			            #{appointment.date}  
 			        </p:column>
-			        
-			        <p:column headerText="Patient ID">  
+
+					<p:column headerText="Patient ID">  
 			            #{appointment.patient.id}  
 			        </p:column>
-			        
-			        <p:column headerText="Name">  
+
+					<p:column headerText="Name">  
 			            #{appointment.patient.name}  
 			        </p:column>
-	
+
 					<p:column headerText="Mobile Number">  
 			            #{appointment.patient.mobileNumber}  
 			        </p:column>
-				
+
 				</p:dataTable>
-				<br /><br />
-				<p:commandButton id="appointmentCreationButton" value="Create appointment" onclick="appointmentCreationDialog.show()" />
+				<br />
+				<br />
+				<p:commandButton id="appointmentCreationButton"
+					value="Create appointment"
+					onclick="appointmentCreationDialog.show()" />
 			</div>
-		</h:form>		
+		</h:form>
 
 		<h:form id="appointmentCreationForm">
-			<p:dialog widgetVar="appointmentCreationDialog" modal="true" draggable="false" closable="false" position="center center" width="500" resizable="false" id="appointmentCreationDialog">
-					<f:facet name="header">
-						<div class="headersText">
-							<h:outputText value="Create appointment" />
-						</div>
-					</f:facet>
-					<div id="appointmentCreationDiv" class="dataDiv"> 
-						<p:dataTable var="patient" value="#{createAppointmentMB.allPatients}" selection="#{createAppointmentMB.selectedPatient}" selectionMode="single" id="patients" rowKey="#{patient.id}">
-							<f:facet name="header">
-								<div class="headersText">
-									<h:outputText value="Patients:" />
-								</div>
-							</f:facet>
-							
-							<p:column headerText="Id">  
+			<p:dialog widgetVar="appointmentCreationDialog" modal="true"
+				draggable="false" closable="false" position="center center"
+				width="500" resizable="false" id="appointmentCreationDialog">
+				<f:facet name="header">
+					<div class="headersText">
+						<h:outputText value="Create appointment" />
+					</div>
+				</f:facet>
+				<div id="appointmentCreationDiv" class="dataDiv">
+					<p:dataTable var="patient"
+						value="#{createAppointmentMB.allPatients}"
+						selection="#{createAppointmentMB.selectedPatient}"
+						selectionMode="single" id="patients" rowKey="#{patient.id}">
+						<f:facet name="header">
+							<div class="headersText">
+								<h:outputText value="Patients:" />
+							</div>
+						</f:facet>
+
+						<p:column headerText="Id">  
 					            #{patient.id}  
 					        </p:column>
-			
-							<p:column headerText="Name">  
+
+						<p:column headerText="Name">  
 					            #{patient.name}  
 					        </p:column>
-			
-							<p:column headerText="Mobile Number">  
+
+						<p:column headerText="Mobile Number">  
 					            #{patient.mobileNumber}  
 					        </p:column>
-			
-						</p:dataTable>
-						<br /><br />
-						<h:outputText value="Appointment date: "/> <p:calendar value="#{createAppointmentMB.date}" pattern="MM/dd/yyyy HH:mm" stepMinute="15"/>
-						<br /><br />
-						<p:commandButton value="Create" actionListener="#{createAppointmentMB.createAppointment}" update="@form :appointmentsForm" oncomplete="appointmentCreationDialog.hide()" />
-						<p:commandButton value="Cancel" oncomplete="appointmentCreationDialog.hide()"/>
-					</div>	
+					</p:dataTable>
+					<br />
+					<br />
+					<h:outputText value="Appointment date: " />
+					<p:calendar value="#{createAppointmentMB.date}"
+						pattern="MM/dd/yyyy HH:mm" stepMinute="15" />
+					<br />
+					<br />
+					<p:commandButton value="Create"
+						actionListener="#{createAppointmentMB.createAppointment}"
+						update="@form :appointmentsForm :chooseAppointmentDate"
+						oncomplete="appointmentCreationDialog.hide()" />
+					<p:commandButton value="Cancel"
+						oncomplete="appointmentCreationDialog.hide()" />
+				</div>
 			</p:dialog>
 		</h:form>
 	</p:panel>
