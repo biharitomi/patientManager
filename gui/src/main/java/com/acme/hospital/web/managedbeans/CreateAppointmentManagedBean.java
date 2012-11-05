@@ -9,6 +9,9 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
 import javax.faces.context.FacesContext;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
@@ -17,6 +20,9 @@ import com.acme.hospital.web.adapter.AppointmentFacadeSpringAdapter;
 @ManagedBean(name = "createAppointmentMB")
 @RequestScoped
 public class CreateAppointmentManagedBean {
+
+	private static Logger logger = LoggerFactory
+			.getLogger(CreateAppointmentManagedBean.class);
 
 	@ManagedProperty(value = "#{appointmentFacadeSpringAdapter}")
 	private AppointmentFacadeSpringAdapter afsa;
@@ -34,25 +40,51 @@ public class CreateAppointmentManagedBean {
 
 	private List<Appointment> doctorAppointments;
 
+	private Doctor loggedInDoctor;
+
 	public void createAppointment() {
 		boolean result = false;
 		if (!(date == null || selectedPatient == null)) {
 			String loggedInDoctorName = loginManagedBean.getLoggedInUser();
-			Doctor d = afsa.getAppointmentFacade().getDoctorByName(
+			loggedInDoctor = afsa.getAppointmentFacade().getDoctorByName(
 					loggedInDoctorName);
-			result = afsa.getAppointmentFacade().createAppointment(d,
-					selectedPatient, date);
+			result = afsa.getAppointmentFacade().createAppointment(
+					loggedInDoctor, selectedPatient, date);
 		}
+		generateMessage(result);
+	}
+
+	public void generateMessage(boolean result) {
 		if (result) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
-							"The appointment creation was successful"));
+							"The appointment creation was successful!  Patient: "
+									+ selectedPatient.getName() + "|| Date: "
+									+ date));
+			logger.info("The appointment creation was successful! For Doctor: "
+					+ loggedInDoctor.getName() + "|| Patient: "
+					+ selectedPatient.getName() + "|| Date: " + date);
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error",
-							"The appointment creation was unsuccessful"));
+			if (selectedPatient == null) {
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(FacesMessage.SEVERITY_ERROR,
+										"Error",
+										"The appointment creation was unsuccessful. No patient selected"));
+				logger.info("The appointment creation was unsuccessful. No patient selected");
+			} else if (date == null) {
+				FacesContext
+						.getCurrentInstance()
+						.addMessage(
+								null,
+								new FacesMessage(FacesMessage.SEVERITY_ERROR,
+										"Error",
+										"The appointment creation was unsuccessful. No date selected"));
+				logger.info("The appointment creation was unsuccessful. No date selected");
+			}
 		}
 	}
 
