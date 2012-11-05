@@ -81,6 +81,15 @@ public class CreateAppointmentManagedBean {
 										"Error",
 										"The appointment creation was unsuccessful. No date selected"));
 				logger.info("The appointment creation was unsuccessful. No date selected");
+			} else if (result == false) {
+				FacesContext
+				.getCurrentInstance()
+				.addMessage(
+						null,
+						new FacesMessage(FacesMessage.SEVERITY_ERROR,
+								"Error",
+								"The appointment creation was unsuccessful. The date is reserved!"));
+				logger.info("The appointment creation was unsuccessful. The date is reserved!");
 			}
 		}
 	}
