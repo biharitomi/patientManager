@@ -33,15 +33,10 @@ public class CreateAppointmentManagedBean {
 	private LoginManagedBean loginManagedBean;
 
 	private Date date;
-
 	private Patient selectedPatient;
-
 	private Appointment selectedAppointment;
-
 	private List<Patient> allPatients;
-
 	private List<Appointment> doctorAppointments;
-
 	private Doctor loggedInDoctor;
 
 	private NeighborDates nd;
@@ -62,6 +57,7 @@ public class CreateAppointmentManagedBean {
 		generateMessage(result);
 	}
 
+
 	public void generateMessage(boolean result) {
 		if (result) {
 			FacesContext.getCurrentInstance().addMessage(
@@ -70,10 +66,13 @@ public class CreateAppointmentManagedBean {
 							"The appointment creation was successful!  Patient: "
 									+ selectedPatient.getName() + "|| Date: "
 									+ date));
+
 			logger.info("The appointment creation was successful! For Doctor: "
 					+ loggedInDoctor.getName() + "|| Patient: "
 					+ selectedPatient.getName() + "|| Date: " + date);
+
 			selectedPatient = null;
+			date = null;
 		} else {
 			if (selectedPatient == null) {
 				FacesContext
