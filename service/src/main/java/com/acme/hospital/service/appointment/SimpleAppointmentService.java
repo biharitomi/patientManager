@@ -46,6 +46,18 @@ public class SimpleAppointmentService implements AppointmentService {
 		return appointmentDAO.getDoctorAppointmentByDate(doctor, date);
 	}
 	
+	@Override
+	public boolean hasAppointmentInTheFutureWith(Doctor doctor, Patient patient) {
+		Date now=new Date();
+		boolean hasAppointment=false;
+		
+		if(appointmentDAO.getDoctorAllAppointmentsFromDate(doctor, now, patient).size()>0){
+			hasAppointment=true;
+		}
+		
+		return hasAppointment;
+	}
+	
 	public AppointmentDAO getAppointmentDAO() {
 		return appointmentDAO;
 	}

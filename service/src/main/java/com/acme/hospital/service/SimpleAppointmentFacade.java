@@ -14,6 +14,7 @@ import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
 import com.acme.hospital.dto.NeighborDates;
+import com.acme.hospital.exception.ReservedAppointmentException;
 import com.acme.hospital.service.appointment.AppointmentService;
 import com.acme.hospital.service.date.DateSlotService;
 import com.acme.hospitalManager.repository.DoctorRepository;
@@ -36,12 +37,15 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 
 	@Override
 	@Transactional(rollbackFor = NoResultException.class)
-	public boolean createAppointment(Doctor doctor, Patient patient, Date date) {
-		boolean isFree = false;
-		isFree = dateSlotService.isSlotFree(doctor, date);
-
-		if (isFree == true) {
+	public boolean createAppointment(Doctor doctor, Patient patient, Date date){
+		boolean isFree = dateSlotService.isSlotFree(doctor, date);
+		boolean hasAppointmentInTheFuture=appointmentService.hasAppointmentInTheFutureWith(doctor,patient);
+		
+		if (isFree && !hasAppointmentInTheFuture) {
 			appointmentService.createAppointment(doctor, patient, date);
+		}
+		else if(hasAppointmentInTheFuture){
+			throw new ReservedAppointmentException("The patient: "+patient+" already has an appointment with: "+doctor);
 		}
 
 		return isFree;

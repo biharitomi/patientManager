@@ -4,6 +4,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.faces.application.FacesMessage;
+import javax.faces.application.FacesMessage.Severity;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.RequestScoped;
@@ -15,6 +16,7 @@ import org.slf4j.LoggerFactory;
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
+import com.acme.hospital.exception.ReservedAppointmentException;
 import com.acme.hospital.service.AppointmentFacade;
 
 @ManagedBean(name = "createAppointmentMB")
@@ -38,12 +40,20 @@ public class CreateAppointmentManagedBean {
 
 	public void createAppointment() {
 		boolean result = false;
-		if (!(date == null || selectedPatient == null)) {
-			String loggedInDoctorName = loginManagedBean.getLoggedInUser();
-			loggedInDoctor = appointmentFacade.getDoctorByName(loggedInDoctorName);
-			result =appointmentFacade.createAppointment(loggedInDoctor, selectedPatient, date);
+		try {
+			if (!(date == null || selectedPatient == null)) {
+				String loggedInDoctorName = loginManagedBean.getLoggedInUser();
+				loggedInDoctor = appointmentFacade.getDoctorByName(loggedInDoctorName);
+				
+				result = appointmentFacade.createAppointment(loggedInDoctor,selectedPatient, date);
+			}
+			
+			generateMessage(result);
+		
+		} catch (ReservedAppointmentException e) {
+			logger.info("The appointment creation was unsuccessful. ReservedAppointmentException catched: "+e.getMessage());
+			writeMessage(FacesMessage.SEVERITY_ERROR,"Error","The appointment creation was unsuccessful. The patient already has an appointment in the near future!");
 		}
-		generateMessage(result);
 	}
 	
 	public List<Appointment> getDoctorAppointments() {
@@ -52,46 +62,29 @@ public class CreateAppointmentManagedBean {
 		return doctorAppointments;
 	}
 
-	public void generateMessage(boolean result) {
+	private void generateMessage(boolean result) {
 		if (result) {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "The appointment creation was successful!  Patient: " + selectedPatient.getName() + "|| Date: " + date));
-			
-			logger.info("The appointment creation was successful! For Doctor: " + loggedInDoctor.getName() + "|| Patient: "	+ selectedPatient.getName() + "|| Date: " + date);
+			writeMessage(FacesMessage.SEVERITY_INFO, "Info", "The appointment creation was successful!  Patient: " + selectedPatient.getName() + " || Date: " + date );
+			logger.info("The appointment creation was successful! For Doctor: " + loggedInDoctor.getName() + " || Patient: "	+ selectedPatient.getName() + " || Date: " + date);
 			
 			selectedPatient=null;
 			date=null;
 		} else {
-			if (selectedPatient == null) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(FacesMessage.SEVERITY_ERROR,
-										"Error",
-										"The appointment creation was unsuccessful. No patient selected"));
+			if (this.selectedPatient == null) {
+				writeMessage(FacesMessage.SEVERITY_ERROR, "Error", "The appointment creation was unsuccessful. No patient selected");
 				logger.info("The appointment creation was unsuccessful. No patient selected");
-			} else if (date == null) {
-				FacesContext
-						.getCurrentInstance()
-						.addMessage(
-								null,
-								new FacesMessage(FacesMessage.SEVERITY_ERROR,
-										"Error",
-										"The appointment creation was unsuccessful. No date selected"));
+			} else if (this.date == null) {
+				writeMessage(FacesMessage.SEVERITY_ERROR, "Error", "The appointment creation was unsuccessful. No date selected");
 				logger.info("The appointment creation was unsuccessful. No date selected");
 			} else if (result == false) {
-				FacesContext
-				.getCurrentInstance()
-				.addMessage(
-						null,
-						new FacesMessage(FacesMessage.SEVERITY_ERROR,
-								"Error",
-								"The appointment creation was unsuccessful. The date is reserved!"));
+				writeMessage(FacesMessage.SEVERITY_ERROR, "Error", "The appointment creation was unsuccessful. The date is reserved!");
 				logger.info("The appointment creation was unsuccessful. The date is reserved!");
 			}
 		}
+	}
+
+	private void writeMessage(Severity severity, String summary, String detail) {
+		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(severity,summary,detail));
 	}
 
 	public Date getDate() {

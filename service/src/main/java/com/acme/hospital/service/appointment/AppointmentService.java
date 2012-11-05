@@ -16,4 +16,6 @@ public interface AppointmentService {
 	public Collection<Appointment> getDoctorAllAppointments(Doctor doctor);
 	
 	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date);
+	
+	public boolean hasAppointmentInTheFutureWith(Doctor doctor, Patient patient);
 }

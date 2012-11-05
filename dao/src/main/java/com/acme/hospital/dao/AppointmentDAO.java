@@ -5,6 +5,7 @@ import java.util.Date;
 
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
+import com.acme.hospital.domain.Patient;
 
 public interface AppointmentDAO {
 
@@ -17,4 +18,6 @@ public interface AppointmentDAO {
 	public Collection<Appointment> getDoctorAppointments(Doctor doctor);
 
 	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date);
+	
+	public Collection<Appointment> getDoctorAllAppointmentsFromDate(Doctor doctor, Date from, Patient patient);
 }

@@ -6,8 +6,10 @@ import java.util.List;
 
 import javax.persistence.NoResultException;
 
+import org.hibernate.Criteria;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
 import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -16,6 +18,7 @@ import org.springframework.stereotype.Repository;
 import com.acme.hospital.dao.AppointmentDAO;
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
+import com.acme.hospital.domain.Patient;
 
 @Repository
 public class HibernateAppointmentDao implements AppointmentDAO {
@@ -64,7 +67,7 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		Session session = sessionFactory.openSession();
 		session.beginTransaction();
 		
-		appointments=(List<Appointment>)session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).list();
+		appointments=(List<Appointment>)session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).addOrder(Order.asc("date")).list();
 		
 		session.getTransaction().commit();
 		session.close();
@@ -94,6 +97,26 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		return appointment;
 	}
 
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<Appointment> getDoctorAllAppointmentsFromDate(Doctor doctor, Date from, Patient patient) {
+		List<Appointment> appointments;
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
+		
+		Criteria criteria=session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).add(Restrictions.gt("date", from));
+		if(patient!=null){
+			criteria.add(Restrictions.eq("patient", patient));
+		}
+		criteria.addOrder(Order.asc("date"));
+		appointments=(List<Appointment>)criteria.list();
+		
+		session.getTransaction().commit();
+		session.close();
+		
+		return appointments;
+	}
+	
 	public SessionFactory getSessionFactory() {
 		return sessionFactory;
 	}
