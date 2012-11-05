@@ -32,7 +32,24 @@ public class SimpleDateSlotService implements DateSlotService {
 
 	@Override
 	public NeighborDates findFreeNeighborSlot(Doctor doctor, Date date) {
-		return null;
+		NeighborDates nd = new NeighborDates();
+		nd.setNextDate(new Date(date.getTime()));
+		nd.setPreviousDate(new Date(date.getTime()));
+		while (!isSlotFree(doctor, nd.getNextDate())) {
+			nextQuarterHour(nd.getNextDate());
+		}
+		while (!isSlotFree(doctor, nd.getPreviousDate())) {
+			previousQuarterHour(nd.getPreviousDate());
+		}
+		return nd;
+	}
+
+	private void nextQuarterHour(Date d) {
+		d.setTime(d.getTime() + 1000 * 60 * 15);
+	}
+
+	private void previousQuarterHour(Date d) {
+		d.setTime(d.getTime() - 1000 * 60 * 15);
 	}
 
 	public AppointmentDAO getAppointmentDAO() {
@@ -43,5 +60,4 @@ public class SimpleDateSlotService implements DateSlotService {
 		this.appointmentDAO = appointmentDAO;
 	}
 
-	
 }
