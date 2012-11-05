@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
 
+import javax.persistence.NoResultException;
+
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
@@ -79,6 +81,17 @@ public class SimpleAppointmentServiceTest {
 		Assert.assertEquals(appointments, result);
 	}
 	
+	@Test(expected=NoResultException.class)
+	public void getDoctorAllAppointmentsTestWhenNoResultsExistShouldThrowNoResultException(){
+		//GIVEN
+		Doctor doctor=new Doctor();
+		BDDMockito.given(appointmentDAO.getDoctorAppointments(doctor)).willThrow(new NoResultException());
+		//WHEN
+		underTest.getDoctorAllAppointments(doctor);
+		//THEN
+		Mockito.verify(appointmentDAO).getDoctorAppointments(doctor);
+	}
+	
 	@Test
 	public void getDoctorAppointmentByDateTestShouldReturnProperly(){
 		//GIVEN
@@ -91,6 +104,18 @@ public class SimpleAppointmentServiceTest {
 		//THEN
 		Mockito.verify(appointmentDAO).getDoctorAppointmentByDate(doctor, date);
 		Assert.assertEquals(appointment, result);
+	}
+	
+	@Test(expected=NoResultException.class)
+	public void getDoctorAppointmentByDateTestWhenNoResultsExistShouldThrowNoResultException(){
+		//GIVEN
+		Doctor doctor=new Doctor();
+		Date date=new Date();
+		BDDMockito.given(appointmentDAO.getDoctorAppointmentByDate(doctor, date)).willThrow(new NoResultException());
+		//WHEN
+		underTest.getDoctorAppointmentByDate(doctor, date);
+		//THEN
+		Mockito.verify(appointmentDAO).getDoctorAppointmentByDate(doctor, date);
 	}
 	
 	@Test

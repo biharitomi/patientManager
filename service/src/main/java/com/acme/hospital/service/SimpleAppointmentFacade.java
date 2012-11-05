@@ -112,4 +112,11 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 		this.patientRepository = patientRepository;
 	}
 
+	public DoctorRepository getDoctorRepository() {
+		return doctorRepository;
+	}
+
+	public void setDoctorRepository(DoctorRepository doctorRepository) {
+		this.doctorRepository = doctorRepository;
+	}
 }

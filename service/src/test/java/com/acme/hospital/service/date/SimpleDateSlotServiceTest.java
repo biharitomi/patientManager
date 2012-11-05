@@ -29,7 +29,7 @@ public class SimpleDateSlotServiceTest {
 	}
 
 	@Test
-	public void testIsSlotFreeWhenThenSlotIsNotFreeShouldReturnFalse() {
+	public void testIsSlotFreeWhenSlotIsNotFreeShouldReturnFalse() {
 		//GIVEN
 		Doctor doctor = new Doctor();
 		Date date = new Date();
@@ -42,7 +42,7 @@ public class SimpleDateSlotServiceTest {
 	}
 	
 	@Test
-	public void testIsSlotFreeWhenThenSlotIsFreeShouldReturnFalse() {
+	public void testIsSlotFreeWhenSlotIsFreeShouldReturnFalse() {
 		//GIVEN
 		Doctor doctor = new Doctor();
 		Date date = new Date();
