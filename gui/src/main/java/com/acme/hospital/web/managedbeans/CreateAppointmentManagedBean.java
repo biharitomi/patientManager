@@ -30,15 +30,10 @@ public class CreateAppointmentManagedBean {
 	private LoginManagedBean loginManagedBean;
 
 	private Date date;
-
 	private Patient selectedPatient;
-
 	private Appointment selectedAppointment;
-
 	private List<Patient> allPatients;
-
 	private List<Appointment> doctorAppointments;
-
 	private Doctor loggedInDoctor;
 
 	public void createAppointment() {
@@ -50,18 +45,23 @@ public class CreateAppointmentManagedBean {
 		}
 		generateMessage(result);
 	}
+	
+	public List<Appointment> getDoctorAppointments() {
+		Doctor d = appointmentFacade.getDoctorByName(loginManagedBean.getLoggedInUser());
+		doctorAppointments = (List<Appointment>) appointmentFacade.getDoctorAllAppointments(d);
+		return doctorAppointments;
+	}
 
 	public void generateMessage(boolean result) {
 		if (result) {
 			FacesContext.getCurrentInstance().addMessage(
 					null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info",
-							"The appointment creation was successful!  Patient: "
-									+ selectedPatient.getName() + "|| Date: "
-									+ date));
-			logger.info("The appointment creation was successful! For Doctor: "
-					+ loggedInDoctor.getName() + "|| Patient: "
-					+ selectedPatient.getName() + "|| Date: " + date);
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Info", "The appointment creation was successful!  Patient: " + selectedPatient.getName() + "|| Date: " + date));
+			
+			logger.info("The appointment creation was successful! For Doctor: " + loggedInDoctor.getName() + "|| Patient: "	+ selectedPatient.getName() + "|| Date: " + date);
+			
+			selectedPatient=null;
+			date=null;
 		} else {
 			if (selectedPatient == null) {
 				FacesContext
@@ -92,12 +92,6 @@ public class CreateAppointmentManagedBean {
 				logger.info("The appointment creation was unsuccessful. The date is reserved!");
 			}
 		}
-	}
-
-	public List<Appointment> getDoctorAppointments() {
-		Doctor d = appointmentFacade.getDoctorByName(loginManagedBean.getLoggedInUser());
-		doctorAppointments = (List<Appointment>) appointmentFacade.getDoctorAllAppointments(d);
-		return doctorAppointments;
 	}
 
 	public Date getDate() {

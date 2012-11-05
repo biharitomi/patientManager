@@ -93,7 +93,7 @@
 						<br /><br />
 						<h:outputText value="Appointment date: "/> <p:calendar value="#{createAppointmentMB.date}" pattern="MM/dd/yyyy HH:mm" stepMinute="15"/>
 						<br /><br />
-						<p:commandButton value="Create" actionListener="#{createAppointmentMB.createAppointment}" update=":appointmentsForm" oncomplete="appointmentCreationDialog.hide()"/>
+						<p:commandButton value="Create" actionListener="#{createAppointmentMB.createAppointment}" update="@form :appointmentsForm" oncomplete="appointmentCreationDialog.hide()" />
 						<p:commandButton value="Cancel" oncomplete="appointmentCreationDialog.hide()"/>
 					</div>	
 			</p:dialog>
