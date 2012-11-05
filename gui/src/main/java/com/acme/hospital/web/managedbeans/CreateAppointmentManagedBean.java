@@ -15,17 +15,16 @@ import org.slf4j.LoggerFactory;
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
 import com.acme.hospital.domain.Patient;
-import com.acme.hospital.web.adapter.AppointmentFacadeSpringAdapter;
+import com.acme.hospital.service.AppointmentFacade;
 
 @ManagedBean(name = "createAppointmentMB")
 @RequestScoped
 public class CreateAppointmentManagedBean {
 
-	private static Logger logger = LoggerFactory
-			.getLogger(CreateAppointmentManagedBean.class);
+	private static Logger logger = LoggerFactory.getLogger(CreateAppointmentManagedBean.class);
 
-	@ManagedProperty(value = "#{appointmentFacadeSpringAdapter}")
-	private AppointmentFacadeSpringAdapter afsa;
+	@ManagedProperty(value="#{simpleAppointmentFacade}")
+	private AppointmentFacade appointmentFacade;
 
 	@ManagedProperty(value = "#{LoginManagedBean}")
 	private LoginManagedBean loginManagedBean;
@@ -46,10 +45,8 @@ public class CreateAppointmentManagedBean {
 		boolean result = false;
 		if (!(date == null || selectedPatient == null)) {
 			String loggedInDoctorName = loginManagedBean.getLoggedInUser();
-			loggedInDoctor = afsa.getAppointmentFacade().getDoctorByName(
-					loggedInDoctorName);
-			result = afsa.getAppointmentFacade().createAppointment(
-					loggedInDoctor, selectedPatient, date);
+			loggedInDoctor = appointmentFacade.getDoctorByName(loggedInDoctorName);
+			result =appointmentFacade.createAppointment(loggedInDoctor, selectedPatient, date);
 		}
 		generateMessage(result);
 	}
@@ -89,10 +86,8 @@ public class CreateAppointmentManagedBean {
 	}
 
 	public List<Appointment> getDoctorAppointments() {
-		Doctor d = afsa.getAppointmentFacade().getDoctorByName(
-				loginManagedBean.getLoggedInUser());
-		doctorAppointments = (List<Appointment>) afsa.getAppointmentFacade()
-				.getDoctorAllAppointments(d);
+		Doctor d = appointmentFacade.getDoctorByName(loginManagedBean.getLoggedInUser());
+		doctorAppointments = (List<Appointment>) appointmentFacade.getDoctorAllAppointments(d);
 		return doctorAppointments;
 	}
 
@@ -105,7 +100,7 @@ public class CreateAppointmentManagedBean {
 	}
 
 	public List<Patient> getAllPatients() {
-		this.allPatients = afsa.getAllPatients();
+		this.allPatients = (List<Patient>) appointmentFacade.getAllPatients();
 		return this.allPatients;
 	}
 
@@ -115,14 +110,6 @@ public class CreateAppointmentManagedBean {
 
 	public void setSelectedPatient(Patient selectedPatient) {
 		this.selectedPatient = selectedPatient;
-	}
-
-	public AppointmentFacadeSpringAdapter getAfsa() {
-		return afsa;
-	}
-
-	public void setAfsa(AppointmentFacadeSpringAdapter afsa) {
-		this.afsa = afsa;
 	}
 
 	public LoginManagedBean getLoginManagedBean() {
@@ -141,4 +128,11 @@ public class CreateAppointmentManagedBean {
 		this.selectedAppointment = selectedAppointment;
 	}
 
+	public AppointmentFacade getAppointmentFacade() {
+		return appointmentFacade;
+	}
+
+	public void setAppointmentFacade(AppointmentFacade appointmentFacade) {
+		this.appointmentFacade = appointmentFacade;
+	}
 }

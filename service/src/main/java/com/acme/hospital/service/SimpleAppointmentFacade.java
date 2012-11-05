@@ -19,7 +19,7 @@ import com.acme.hospital.service.date.DateSlotService;
 import com.acme.hospitalManager.repository.DoctorRepository;
 import com.acme.hospitalManager.repository.PatientRepository;
 
-@Component("sipmleAppointmentFacade")
+@Component("simpleAppointmentFacade")
 public class SimpleAppointmentFacade implements AppointmentFacade {
 
 	@Autowired
