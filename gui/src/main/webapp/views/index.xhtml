@@ -51,6 +51,7 @@
 							<h:outputText value="Appointnemts:" />
 						</div>
 					</f:facet>
+					<p:ajax update="@form" event="rowSelect"></p:ajax>
 
 					<p:column headerText="Id">  
 			            #{appointment.id}  
@@ -78,6 +79,7 @@
 				<p:commandButton id="appointmentCreationButton"
 					value="Create appointment"
 					onclick="appointmentCreationDialog.show()" />
+				<p:commandButton id="appointmentUpdateButton" value="Update appointment" onclick="appointmentCreationDialog.show()" disabled="#{createAppointmentMB.selectedAppointment==null}"/>
 			</div>
 		</h:form>
 
