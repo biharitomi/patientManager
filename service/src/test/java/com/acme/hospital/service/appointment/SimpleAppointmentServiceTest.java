@@ -25,6 +25,12 @@ public class SimpleAppointmentServiceTest {
 	@Mock
 	private AppointmentDAO appointmentDAO;
 	
+	@Mock
+	private Doctor doctor;
+	
+	@Mock
+	private Patient patient;
+	
 	@Before
 	public void setUp(){
 		MockitoAnnotations.initMocks(this);
@@ -35,8 +41,6 @@ public class SimpleAppointmentServiceTest {
 	@Test
 	public void createAppointmentTestShouldReturnProperly(){
 		//GIVEN
-		Doctor doctor=new Doctor();
-		Patient patient=new Patient();
 		Date date=new Date();
 		
 		Appointment appointment=new Appointment();
@@ -52,8 +56,6 @@ public class SimpleAppointmentServiceTest {
 	@Test
 	public void updateAppointmentTestShouldReturnProperly(){
 		//GIVEN
-		Doctor doctor=new Doctor();
-		Patient patient=new Patient();
 		Date date=new Date();
 		Date newDate=new Date(30000L);
 		
@@ -71,7 +73,6 @@ public class SimpleAppointmentServiceTest {
 	@Test
 	public void getDoctorAllAppointmentsTestShouldReturnProperly(){
 		//GIVEN
-		Doctor doctor=new Doctor();
 		Collection<Appointment> appointments=new ArrayList<Appointment>();
 		BDDMockito.given(appointmentDAO.getDoctorAppointments(doctor)).willReturn(appointments);
 		//WHEN
@@ -84,7 +85,6 @@ public class SimpleAppointmentServiceTest {
 	@Test(expected=NoResultException.class)
 	public void getDoctorAllAppointmentsTestWhenNoResultsExistShouldThrowNoResultException(){
 		//GIVEN
-		Doctor doctor=new Doctor();
 		BDDMockito.given(appointmentDAO.getDoctorAppointments(doctor)).willThrow(new NoResultException());
 		//WHEN
 		underTest.getDoctorAllAppointments(doctor);
@@ -95,7 +95,6 @@ public class SimpleAppointmentServiceTest {
 	@Test
 	public void getDoctorAppointmentByDateTestShouldReturnProperly(){
 		//GIVEN
-		Doctor doctor=new Doctor();
 		Date date=new Date(30000L);
 		Appointment appointment=new Appointment();
 		BDDMockito.given(appointmentDAO.getDoctorAppointmentByDate(doctor, date)).willReturn(appointment);
@@ -109,13 +108,24 @@ public class SimpleAppointmentServiceTest {
 	@Test(expected=NoResultException.class)
 	public void getDoctorAppointmentByDateTestWhenNoResultsExistShouldThrowNoResultException(){
 		//GIVEN
-		Doctor doctor=new Doctor();
-		Date date=new Date();
+		Date date=new Date(30000L);
 		BDDMockito.given(appointmentDAO.getDoctorAppointmentByDate(doctor, date)).willThrow(new NoResultException());
 		//WHEN
 		underTest.getDoctorAppointmentByDate(doctor, date);
 		//THEN
 		Mockito.verify(appointmentDAO).getDoctorAppointmentByDate(doctor, date);
+	}
+	
+	@Test
+	public void hasAppointmentInTheFutureWithTestShouldReturnProperlyWhenPatientHasAppointmentInTheFuture(){
+		//GIVEN
+		Collection<Appointment> appointments=new ArrayList<Appointment>();
+		BDDMockito.given(appointmentDAO.getDoctorAllAppointmentsFromDate(doctor, underTest.now, patient)).willReturn(appointments);
+		//WHEN
+		boolean result=underTest.hasAppointmentInTheFutureWith(doctor, patient);
+		//THEN
+		Mockito.verify(appointmentDAO).getDoctorAllAppointmentsFromDate(doctor, underTest.now, patient);
+		Assert.assertEquals(false, result);
 	}
 	
 	@Test

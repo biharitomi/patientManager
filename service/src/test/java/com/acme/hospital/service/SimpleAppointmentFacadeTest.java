@@ -2,6 +2,7 @@ package com.acme.hospital.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 
 import javax.persistence.NoResultException;
 
@@ -15,6 +16,9 @@ import org.mockito.MockitoAnnotations;
 
 import com.acme.hospital.domain.Appointment;
 import com.acme.hospital.domain.Doctor;
+import com.acme.hospital.domain.Patient;
+import com.acme.hospital.dto.NeighborDates;
+import com.acme.hospital.exception.ReservedAppointmentException;
 import com.acme.hospital.service.appointment.AppointmentService;
 import com.acme.hospital.service.date.DateSlotService;
 import com.acme.hospitalManager.repository.DoctorRepository;
@@ -37,6 +41,9 @@ public class SimpleAppointmentFacadeTest {
 	
 	@Mock
 	private Doctor doctor;
+	
+	@Mock
+	private Patient patient;
 	
 	@Before
 	public void setUp(){
@@ -94,5 +101,65 @@ public class SimpleAppointmentFacadeTest {
 		Assert.assertEquals(appointments, result);
 	}
 	
+	@Test
+	public void getFreeNeighborDatesTestShouldReturnProperly(){
+		//GIVEN
+		NeighborDates neighborDates=new NeighborDates();
+		Date date=new Date();
+		underTest.setDateSlotService(dateSlotService);
+		BDDMockito.given(dateSlotService.findFreeNeighborSlot(doctor, date)).willReturn(neighborDates);
+		//WHEN
+		NeighborDates result=underTest.getFreeNeighborDates(doctor, date);
+		//THEN
+		Mockito.verify(dateSlotService).findFreeNeighborSlot(doctor, date);
+		Assert.assertEquals(neighborDates, result);
+	}
 	
+	@Test
+	public void createAppointmentTestShouldReturnProperlyWhenTheDateIsFree(){
+		//GIVEN
+		Date date=new Date();
+		underTest.setDateSlotService(dateSlotService);
+		underTest.setAppointmentService(appointmentService);
+		BDDMockito.given(dateSlotService.isSlotFree(doctor, date)).willReturn(true);
+		BDDMockito.given(appointmentService.hasAppointmentInTheFutureWith(doctor, patient)).willReturn(false);
+		//WHEN
+		boolean result=underTest.createAppointment(doctor, patient, date);
+		//THEN
+		Mockito.verify(dateSlotService).isSlotFree(doctor, date);
+		Mockito.verify(appointmentService).hasAppointmentInTheFutureWith(doctor, patient);
+		Assert.assertEquals(true, result);
+	}
+	
+	@Test
+	public void createAppointmentTestShouldReturnProperlyWhenTheDateIsNotFree(){
+		//GIVEN
+		Date date=new Date();
+		underTest.setDateSlotService(dateSlotService);
+		underTest.setAppointmentService(appointmentService);
+		BDDMockito.given(dateSlotService.isSlotFree(doctor, date)).willReturn(false);
+		BDDMockito.given(appointmentService.hasAppointmentInTheFutureWith(doctor, patient)).willReturn(false);
+		//WHEN
+		boolean result=underTest.createAppointment(doctor, patient, date);
+		//THEN
+		Mockito.verify(dateSlotService).isSlotFree(doctor, date);
+		Mockito.verify(appointmentService).hasAppointmentInTheFutureWith(doctor, patient);
+		Assert.assertEquals(false, result);
+	}
+	
+	@Test(expected=ReservedAppointmentException.class)
+	public void createAppointmentTestShouldThrowReservedAppointmentExceptionWhenPatientHasAppointmentInTheFuture(){
+		//GIVEN
+		Date date=new Date();
+		underTest.setDateSlotService(dateSlotService);
+		underTest.setAppointmentService(appointmentService);
+		BDDMockito.given(dateSlotService.isSlotFree(doctor, date)).willReturn(true);
+		BDDMockito.given(appointmentService.hasAppointmentInTheFutureWith(doctor, patient)).willReturn(true);
+		//WHEN
+		boolean result=underTest.createAppointment(doctor, patient, date);
+		//THEN
+		Mockito.verify(dateSlotService).isSlotFree(doctor, date);
+		Mockito.verify(appointmentService).hasAppointmentInTheFutureWith(doctor, patient);
+		Assert.assertEquals(true, result);
+	}
 }
