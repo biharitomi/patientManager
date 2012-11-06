@@ -52,8 +52,9 @@ public class LoginManagedBean {
 	}
 	
 	public String logout(){
+		FacesContext.getCurrentInstance().getExternalContext().getSessionMap().remove("createAppointmentMB");
 		SecurityContextHolder.getContext().getAuthentication().setAuthenticated(false);
-		logger.info("******** LOGOUT was successfully for "+loggedInUser+" *******");
+		logger.info("******** LOGOUT was successfully for "+loggedInUser+" createAppointmentMB sessionScoped managed bean was deleted*******");
 		this.loggedInUser="";
 		return "/login?faces-redirect=true";
 	}

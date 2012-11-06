@@ -26,14 +26,19 @@
 			</h:form>
 		</f:facet>
 
-		<p:dialog widgetVar="dialogPac">
+		<p:dialog widgetVar="dialogCreateAppointment">
 			<p:messages id="messages" showDetail="true" autoUpdate="true"
 				closable="false" />
 			<h:form id="chooseAppointmentDate">
-				<p:commandButton value="#{createAppointmentMB.previousDateAsString}" actionListener="#{createAppointmentMB.createAppointmentAtPrevoiusDate}" update=":appointmentsForm :appointmentCreationForm"/>
-				<p:commandButton value="#{createAppointmentMB.nextDateAsString}" actionListener="#{createAppointmentMB.createAppointmentAtNextDate}" update=":appointmentsForm :appointmentCreationForm"/>
+				<p:commandButton value="#{createAppointmentMB.previousDateAsString}"
+					actionListener="#{createAppointmentMB.createAppointmentAtPrevoiusDate}"
+					update=":appointmentsForm :appointmentCreationForm" />
+				<p:commandButton value="#{createAppointmentMB.nextDateAsString}"
+					actionListener="#{createAppointmentMB.createAppointmentAtNextDate}"
+					update=":appointmentsForm :appointmentCreationForm" />
 			</h:form>
 		</p:dialog>
+
 
 		<h:form id="appointmentsForm">
 			<div id="appointmentsDiv" class="dataDiv">
@@ -45,12 +50,13 @@
 					emptyMessage="No appointment available!"
 					value="#{createAppointmentMB.doctorAppointments}"
 					selection="#{createAppointmentMB.selectedAppointment}"
-					selectionMode="single" id="appointments" rowKey="#{appointment.id}" >
+					selectionMode="single" id="appointments" rowKey="#{appointment.id}">
 					<f:facet name="header">
 						<div class="headersText">
 							<h:outputText value="Appointnemts:" />
 						</div>
 					</f:facet>
+					<p:ajax update="@form" event="rowSelect"></p:ajax>
 
 					<p:column headerText="Id">  
 			            #{appointment.id}  
@@ -73,40 +79,66 @@
 			        </p:column>
 
 				</p:dataTable>
-				<br />
-				<br />
+				<br /> <br />
 				<p:commandButton id="appointmentCreationButton"
 					value="Create appointment"
-					onclick="appointmentCreationDialog.show()" />
+					oncomplete="appointmentCreationDialog.show()" />
 				<p:commandButton id="appointmentUpdateButton"
-                    value="Update appointment"
-                    onclick="appointmentUpdateDialog.show()" rendered="#{createAppointmentMB.selectedAppointment != null}" />
+					value="Update appointment"
+					oncomplete="appointmentUpdateDialog.show()"
+					disabled="#{createAppointmentMB.selectedAppointment==null}"
+					update="@form :appointmentUpdateForm"
+					action="#{createAppointmentMB.updateDateToSelectedAppointmentsDate}" />
 			</div>
 		</h:form>
-		
-		
+
+
 		<h:form id="appointmentUpdateForm">
-            <p:dialog widgetVar="appointmentUpdateDialog" modal="true"
-                draggable="false" closable="false" position="center center"
-                width="500" resizable="false" id="appointmentUpdateDialog">
-                <f:facet name="header">
-                    <div class="headersText">
-                        <h:outputText value="Update appointment" />
-                    </div>
-                </f:facet>
-                 <h:outputText value="Appointment date: " />
-                 <p:calendar value="#{createAppointmentMB.date}"
-                     pattern="MM/dd/yyyy HH:mm" stepMinute="15" />
-                 <br />
-                 <br />
-                 <p:commandButton value="Create"
-                     actionListener="#{createAppointmentMB.createAppointment}"
-                     update="@form :appointmentsForm :chooseAppointmentDate"
-                     oncomplete="appointmentCreationDialog.hide()" />
-                 <p:commandButton value="Cancel"
-                     oncomplete="appointmentCreationDialog.hide()" />
-            </p:dialog>
-        </h:form>
+			<p:dialog widgetVar="appointmentUpdateDialog" modal="true"
+				draggable="false" closable="false" position="center center"
+				width="400" resizable="false" id="appointmentUpdateDialog">
+				<f:facet name="header">
+					<div class="headersText">
+						<h:outputText value="Update appointment" />
+					</div>
+				</f:facet>
+
+				<p:panelGrid columns="2" style="margin: auto; font-size:14px;">
+					<h:outputText value="Patient ID:" />
+					<h:outputText
+						value="#{createAppointmentMB.selectedAppointment.patient.id}" />
+
+					<h:outputText value="Name:" />
+					<h:outputText
+						value="#{createAppointmentMB.selectedAppointment.patient.name}" />
+
+					<h:outputText value="Appointment date: " />
+					<p:calendar value="#{createAppointmentMB.date}"
+						pattern="MM/dd/yyyy HH:mm" stepMinute="15" />
+				</p:panelGrid>
+				<f:facet name="footer">
+					<p:commandButton value="Update"
+						actionListener="#{createAppointmentMB.updateAppointment}"
+						update="@form :appointmentsForm :chooseToUpdateAppointmentDate"
+						oncomplete="appointmentUpdateDialog.hide()" />
+					<p:commandButton value="Cancel"
+						oncomplete="appointmentUpdateDialog.hide()" />
+				</f:facet>
+			</p:dialog>
+		</h:form>
+
+		<p:dialog widgetVar="dialogUpdateAppointment">
+			<p:messages id="messagesUpdate" showDetail="true" autoUpdate="true"
+				closable="false" />
+			<h:form id="chooseToUpdateAppointmentDate">
+				<p:commandButton value="#{createAppointmentMB.previousDateAsString}"
+					actionListener="#{createAppointmentMB.updateAppointmentAtPrevoiusDate}"
+					update=":appointmentsForm :appointmentCreationForm" />
+				<p:commandButton value="#{createAppointmentMB.nextDateAsString}"
+					actionListener="#{createAppointmentMB.updateAppointmentAtNextDate}"
+					update=":appointmentsForm :appointmentCreationForm" />
+			</h:form>
+		</p:dialog>
 
 		<h:form id="appointmentCreationForm">
 			<p:dialog widgetVar="appointmentCreationDialog" modal="true"
@@ -140,13 +172,11 @@
 					            #{patient.mobileNumber}  
 					        </p:column>
 					</p:dataTable>
-					<br />
-					<br />
+					<br /> <br />
 					<h:outputText value="Appointment date: " />
 					<p:calendar value="#{createAppointmentMB.date}"
 						pattern="MM/dd/yyyy HH:mm" stepMinute="15" />
-					<br />
-					<br />
+					<br /> <br />
 					<p:commandButton value="Create"
 						actionListener="#{createAppointmentMB.createAppointment}"
 						update="@form :appointmentsForm :chooseAppointmentDate"

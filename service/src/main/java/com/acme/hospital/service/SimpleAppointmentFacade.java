@@ -58,7 +58,13 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 
 	@Override
 	public boolean changeAppointmentDate(Appointment appointment, Date date) {
-		return false;
+		boolean isFree = dateSlotService.isSlotFree(appointment.getDoctor(), date);
+		if(isFree) {
+			appointmentService.changeAppointmentDate(appointment, date);
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	@Override

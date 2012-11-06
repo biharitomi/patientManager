@@ -18,6 +18,8 @@ public class SimpleAppointmentService implements AppointmentService {
 	@Autowired
 	@Qualifier("hibernateAppointmentDao")
 	AppointmentDAO appointmentDAO;
+	
+	Date now;
 
 	@Override
 	public void createAppointment(Doctor doctor, Patient patient, Date date) {
@@ -32,7 +34,6 @@ public class SimpleAppointmentService implements AppointmentService {
 	@Override
 	public void changeAppointmentDate(Appointment appointment, Date newDate) {
 		appointment.setDate(newDate);
-		
 		appointmentDAO.updateAppointment(appointment);
 	}
 
@@ -48,7 +49,7 @@ public class SimpleAppointmentService implements AppointmentService {
 	
 	@Override
 	public boolean hasAppointmentInTheFutureWith(Doctor doctor, Patient patient) {
-		Date now=new Date();
+		now=new Date();
 		boolean hasAppointment=false;
 		
 		if(appointmentDAO.getDoctorAllAppointmentsFromDate(doctor, now, patient).size()>0){

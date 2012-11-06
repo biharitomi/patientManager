@@ -66,9 +66,23 @@ public class CreateAppointmentManagedBean {
 	}
 	
 	public void updateAppointment() {
-		if(selectedAppointment == null) {
-			writeMessage(FacesMessage.SEVERITY_ERROR,"Error","No appointment selected!");
+		boolean result = appointmentFacade.changeAppointmentDate(selectedAppointment, date);
+		String loggedInDoctorName = loginManagedBean.getLoggedInUser();
+		loggedInDoctor = appointmentFacade.getDoctorByName(loggedInDoctorName);
+		if(result) {
+			writeMessage(FacesMessage.SEVERITY_INFO, "Info", "The appointment update was successful!  Patient: " + selectedAppointment.getPatient().getName() + " || Date: " + date);
+			logger.info("The appointment update was successful! For Doctor: " + selectedAppointment.getDoctor().getName() + " || Patient: "	+ selectedAppointment.getPatient().getName() + " || Date: " + date);
+			setPatientAndDateToNull();
+		} else {
+			logger.info("Not succesful");
+			nd = appointmentFacade.getFreeNeighborDates(loggedInDoctor,
+					date);
+			previousDateAsString = nd.getPreviousDate().toString();
+			nextDateAsString = nd.getNextDate().toString();
+			RequestContext context = RequestContext.getCurrentInstance();
+			context.execute("dialogUpdateAppointment.show()");
 		}
+		
 	}
 
 
@@ -92,11 +106,16 @@ public class CreateAppointmentManagedBean {
 				previousDateAsString = nd.getPreviousDate().toString();
 				nextDateAsString = nd.getNextDate().toString();
 				RequestContext context = RequestContext.getCurrentInstance();
-				context.execute("dialogPac.show()");
+				context.execute("dialogCreateAppointment.show()");
 			}
 		}
 	}
 
+	public void updateDateToSelectedAppointmentsDate() {
+		date = new Date();
+		this.date.setTime(selectedAppointment.getDate().getTime());
+	}
+	
 	private void writeMessage(Severity severity, String summary, String detail) {
 		FacesContext.getCurrentInstance().addMessage(null,new FacesMessage(severity,summary,detail));
 	}
@@ -108,13 +127,29 @@ public class CreateAppointmentManagedBean {
 				.getDoctorAllAppointments(d);
 		return doctorAppointments;
 	}
+	
+	public void updateAppointmentAtPrevoiusDate() {
+		date.setTime(nd.getPreviousDate().getTime());
+		updateAppointment();
+		setPatientAndDateToNull();
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("dialogUpdateAppointment.hide()");
+	}
+	
+	public void updateAppointmentAtNextDate() {
+		date.setTime(nd.getNextDate().getTime());
+		updateAppointment();
+		setPatientAndDateToNull();
+		RequestContext context = RequestContext.getCurrentInstance();
+		context.execute("dialogUpdateAppointment.hide()");
+	}
 
 	public void createAppointmentAtPrevoiusDate() {
 		date.setTime(nd.getPreviousDate().getTime());
 		createAppointment();
 		setPatientAndDateToNull();
 		RequestContext context = RequestContext.getCurrentInstance();
-		context.execute("dialogPac.hide()");
+		context.execute("dialogCreateAppointment.hide()");
 	}
 
 	public void createAppointmentAtNextDate() {
@@ -122,7 +157,7 @@ public class CreateAppointmentManagedBean {
 		createAppointment();
 		setPatientAndDateToNull();
 		RequestContext context = RequestContext.getCurrentInstance();
-		context.execute("dialogPac.hide()");
+		context.execute("dialogCreateAppointment.hide()");
 	}
 
 
