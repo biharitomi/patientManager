@@ -91,12 +91,12 @@
 				</f:facet>
 				<p:panelGrid columns="2" style="margin: auto; font-size:14px;">
 	                <h:outputText value="Source day: " />
-	                <p:calendar value="#{createAppointmentMB.sourceWorkingDay}" pattern="MM/dd/yyyy"/>
+	                <p:calendar value="#{changeWorkingDayManagedBean.sourceWorkingDay}" pattern="MM/dd/yyyy"/>
 	                
 	                <h:outputText value="Target day: " />
-	                <p:calendar value="#{createAppointmentMB.targetWrokingDay}" pattern="MM/dd/yyyy"/>
+	                <p:calendar value="#{changeWorkingDayManagedBean.targetWrokingDay}" pattern="MM/dd/yyyy"/>
 	                <f:facet name="footer">
-	                	<p:commandButton value="Change"	oncomplete="changeWorkingDayDialog.hide()" />
+	                	<p:commandButton value="Change" actionListener="#{changeWorkingDayManagedBean.changeWorkingDayEvent}" oncomplete="changeWorkingDayDialog.hide()" />
 						<p:commandButton value="Cancel"	oncomplete="changeWorkingDayDialog.hide()" />
 	                </f:facet>
             	</p:panelGrid>
