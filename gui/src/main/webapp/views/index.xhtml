@@ -30,8 +30,8 @@
 			<p:messages id="messages" showDetail="true" autoUpdate="true"
 				closable="false" />
 			<h:form id="chooseAppointmentDate">
-				<p:commandButton value="#{createAppointmentMB.previousDateAsString}" actionListener="#{createAppointmentMB.createAppointmentAtPrevoiusDate}" update=":appointmentsForm"/>
-				<p:commandButton value="#{createAppointmentMB.nextDateAsString}" actionListener="#{createAppointmentMB.createAppointmentAtNextDate}" update=":appointmentsForm"/>
+				<p:commandButton value="#{createAppointmentMB.previousDateAsString}" actionListener="#{createAppointmentMB.createAppointmentAtPrevoiusDate}" update=":appointmentsForm :appointmentCreationForm"/>
+				<p:commandButton value="#{createAppointmentMB.nextDateAsString}" actionListener="#{createAppointmentMB.createAppointmentAtNextDate}" update=":appointmentsForm :appointmentCreationForm"/>
 			</h:form>
 		</p:dialog>
 
