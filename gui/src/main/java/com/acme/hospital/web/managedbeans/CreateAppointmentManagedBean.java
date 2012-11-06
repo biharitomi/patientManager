@@ -40,6 +40,8 @@ public class CreateAppointmentManagedBean {
 	private List<Patient> allPatients;
 	private List<Appointment> doctorAppointments;
 	private Doctor loggedInDoctor;
+	private Date sourceWorkingDay=new Date();
+	private Date targetWrokingDay=new Date();
 
 	private NeighborDates nd;
 
@@ -177,4 +179,25 @@ public class CreateAppointmentManagedBean {
 	public void setAppointmentFacade(AppointmentFacade appointmentFacade) {
 		this.appointmentFacade = appointmentFacade;
 	}
+
+
+	public Date getSourceWorkingDay() {
+		return sourceWorkingDay;
+	}
+
+
+	public void setSourceWorkingDay(Date sourceWorkingDay) {
+		this.sourceWorkingDay = sourceWorkingDay;
+	}
+
+
+	public Date getTargetWrokingDay() {
+		return targetWrokingDay;
+	}
+
+
+	public void setTargetWrokingDay(Date targetWrokingDay) {
+		this.targetWrokingDay = targetWrokingDay;
+	}
+	
 }
