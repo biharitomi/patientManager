@@ -64,6 +64,12 @@ public class CreateAppointmentManagedBean {
 			writeMessage(FacesMessage.SEVERITY_ERROR,"Error","The appointment creation was unsuccessful. The patient already has an appointment in the near future!");
 		}
 	}
+	
+	public void updateAppointment() {
+		if(selectedAppointment == null) {
+			writeMessage(FacesMessage.SEVERITY_ERROR,"Error","No appointment selected!");
+		}
+	}
 
 
 	private void generateMessage(boolean result) {

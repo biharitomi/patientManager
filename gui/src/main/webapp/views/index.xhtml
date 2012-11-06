@@ -45,7 +45,7 @@
 					emptyMessage="No appointment available!"
 					value="#{createAppointmentMB.doctorAppointments}"
 					selection="#{createAppointmentMB.selectedAppointment}"
-					selectionMode="single" id="appointments" rowKey="#{appointment.id}">
+					selectionMode="single" id="appointments" rowKey="#{appointment.id}" >
 					<f:facet name="header">
 						<div class="headersText">
 							<h:outputText value="Appointnemts:" />
@@ -78,8 +78,35 @@
 				<p:commandButton id="appointmentCreationButton"
 					value="Create appointment"
 					onclick="appointmentCreationDialog.show()" />
+				<p:commandButton id="appointmentUpdateButton"
+                    value="Update appointment"
+                    onclick="appointmentUpdateDialog.show()" rendered="#{createAppointmentMB.selectedAppointment != null}" />
 			</div>
 		</h:form>
+		
+		
+		<h:form id="appointmentUpdateForm">
+            <p:dialog widgetVar="appointmentUpdateDialog" modal="true"
+                draggable="false" closable="false" position="center center"
+                width="500" resizable="false" id="appointmentUpdateDialog">
+                <f:facet name="header">
+                    <div class="headersText">
+                        <h:outputText value="Update appointment" />
+                    </div>
+                </f:facet>
+                 <h:outputText value="Appointment date: " />
+                 <p:calendar value="#{createAppointmentMB.date}"
+                     pattern="MM/dd/yyyy HH:mm" stepMinute="15" />
+                 <br />
+                 <br />
+                 <p:commandButton value="Create"
+                     actionListener="#{createAppointmentMB.createAppointment}"
+                     update="@form :appointmentsForm :chooseAppointmentDate"
+                     oncomplete="appointmentCreationDialog.hide()" />
+                 <p:commandButton value="Cancel"
+                     oncomplete="appointmentCreationDialog.hide()" />
+            </p:dialog>
+        </h:form>
 
 		<h:form id="appointmentCreationForm">
 			<p:dialog widgetVar="appointmentCreationDialog" modal="true"
