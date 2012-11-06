@@ -79,17 +79,38 @@
 			        </p:column>
 
 				</p:dataTable>
-				<br /> <br />
-				<p:commandButton id="appointmentCreationButton"
-					value="Create appointment"
-					oncomplete="appointmentCreationDialog.show()" />
+				<br />
+				<br />
+				<p:commandButton id="appointmentCreationButton" value="Create appointment" oncomplete="appointmentCreationDialog.show()" />
 				<p:commandButton id="appointmentUpdateButton"
-					value="Update appointment"
-					oncomplete="appointmentUpdateDialog.show()"
-					disabled="#{createAppointmentMB.selectedAppointment==null}"
-					update="@form :appointmentUpdateForm"
-					action="#{createAppointmentMB.updateDateToSelectedAppointmentsDate}" />
+                    value="Update appointment"
+                    oncomplete="appointmentUpdateDialog.show()"
+                    disabled="#{createAppointmentMB.selectedAppointment==null}"
+                    update="@form :appointmentUpdateForm"
+                    action="#{createAppointmentMB.updateDateToSelectedAppointmentsDate}" />
+				<p:commandButton id="changeWorkingDayButton" update=":changeWorkingDayForm" value="Change working day" oncomplete="changeWorkingDayDialog.show()"/>
 			</div>
+		</h:form>
+		
+		<h:form id="changeWorkingDayForm">
+			<p:dialog widgetVar="changeWorkingDayDialog" modal="true" draggable="false" closable="false" position="center center" width="350" resizable="false" id="appointmentCreationDialog">
+				<f:facet name="header">
+					<div class="headersText">
+						<h:outputText value="Change working day" />
+					</div>
+				</f:facet>
+				<p:panelGrid columns="2" style="margin: auto; font-size:14px;">
+	                <h:outputText value="Source day: " />
+	                <p:calendar value="#{changeWorkingDayManagedBean.sourceWorkingDay}" pattern="MM/dd/yyyy"/>
+	                
+	                <h:outputText value="Target day: " />
+	                <p:calendar value="#{changeWorkingDayManagedBean.targetWrokingDay}" pattern="MM/dd/yyyy"/>
+	                <f:facet name="footer">
+	                	<p:commandButton value="Change" actionListener="#{changeWorkingDayManagedBean.changeWorkingDayEvent}" oncomplete="changeWorkingDayDialog.hide()" />
+						<p:commandButton value="Cancel"	oncomplete="changeWorkingDayDialog.hide()" />
+	                </f:facet>
+            	</p:panelGrid>
+			</p:dialog>
 		</h:form>
 
 

@@ -218,4 +218,5 @@ public class CreateAppointmentManagedBean {
 	public void setAppointmentFacade(AppointmentFacade appointmentFacade) {
 		this.appointmentFacade = appointmentFacade;
 	}
+
 }
