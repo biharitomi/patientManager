@@ -70,9 +70,7 @@ public class CreateAppointmentManagedBean {
 		if (result) {
 			writeMessage(FacesMessage.SEVERITY_INFO, "Info", "The appointment creation was successful!  Patient: " + selectedPatient.getName() + " || Date: " + date );
 			logger.info("The appointment creation was successful! For Doctor: " + loggedInDoctor.getName() + " || Patient: "	+ selectedPatient.getName() + " || Date: " + date);
-			
-			selectedPatient=null;
-			date=null;
+			setPatientAndDateToNull();
 		} else {
 			if (this.selectedPatient == null) {
 				writeMessage(FacesMessage.SEVERITY_ERROR, "Error", "The appointment creation was unsuccessful. No patient selected");
@@ -108,6 +106,7 @@ public class CreateAppointmentManagedBean {
 	public void createAppointmentAtPrevoiusDate() {
 		date.setTime(nd.getPreviousDate().getTime());
 		createAppointment();
+		setPatientAndDateToNull();
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("dialogPac.hide()");
 	}
@@ -115,8 +114,15 @@ public class CreateAppointmentManagedBean {
 	public void createAppointmentAtNextDate() {
 		date.setTime(nd.getNextDate().getTime());
 		createAppointment();
+		setPatientAndDateToNull();
 		RequestContext context = RequestContext.getCurrentInstance();
 		context.execute("dialogPac.hide()");
+	}
+
+
+	private void setPatientAndDateToNull() {
+		selectedPatient=null;
+		date=null;
 	}
 
 	public String getPreviousDateAsString() {
