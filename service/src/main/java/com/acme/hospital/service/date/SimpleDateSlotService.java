@@ -33,15 +33,27 @@ public class SimpleDateSlotService implements DateSlotService {
 	@Override
 	public NeighborDates findFreeNeighborSlot(Doctor doctor, Date date) {
 		NeighborDates nd = new NeighborDates();
-		nd.setNextDate(new Date(date.getTime()));
-		nd.setPreviousDate(new Date(date.getTime()));
-		while (!isSlotFree(doctor, nd.getNextDate())) {
-			nextQuarterHour(nd.getNextDate());
-		}
-		while (!isSlotFree(doctor, nd.getPreviousDate())) {
-			previousQuarterHour(nd.getPreviousDate());
-		}
+		nd.setNextDate(findNextFreeNeighbourSlot(doctor, date));
+		nd.setPreviousDate(findPreviousFreeNeighbourSlot(doctor, date));
+		
 		return nd;
+	}
+	
+	@Override
+	public Date findNextFreeNeighbourSlot(Doctor doctor, Date date){
+		Date nextDate=new Date(date.getTime());
+		while (!isSlotFree(doctor, nextDate)) {
+			nextQuarterHour(nextDate);
+		}
+		return nextDate;
+	}
+	
+	private Date findPreviousFreeNeighbourSlot(Doctor doctor, Date date){
+		Date previousDate=new Date(date.getTime());
+		while (!isSlotFree(doctor, previousDate)) {
+			previousQuarterHour(previousDate);
+		}
+		return previousDate;
 	}
 
 	private void nextQuarterHour(Date d) {

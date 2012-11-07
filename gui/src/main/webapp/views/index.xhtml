@@ -49,7 +49,9 @@
 				<p:dataTable var="appointment"
 					emptyMessage="No appointment available!"
 					value="#{createAppointmentMB.doctorAppointments}"
-					selection="#{createAppointmentMB.selectedAppointment}"
+					selection="#{createAppointmentMB.selectedAppointment}" resizableColumns="false" tableStyle="height:640px;"
+					currentPageReportTemplate="( Pages: {currentPage} of {totalPages} ) - ( Records: [{startRecord} - {endRecord}] of {totalRecords} )"
+					paginator="true" paginatorAlwaysVisible="true" rows="20" paginatorTemplate="{FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
 					selectionMode="single" id="appointments" rowKey="#{appointment.id}">
 					<f:facet name="header">
 						<div class="headersText">
@@ -106,7 +108,7 @@
 	                <h:outputText value="Target day: " />
 	                <p:calendar value="#{changeWorkingDayManagedBean.targetWrokingDay}" pattern="MM/dd/yyyy"/>
 	                <f:facet name="footer">
-	                	<p:commandButton value="Change" actionListener="#{changeWorkingDayManagedBean.changeWorkingDayEvent}" oncomplete="changeWorkingDayDialog.hide()" />
+	                	<p:commandButton value="Change" actionListener="#{changeWorkingDayManagedBean.changeWorkingDayEvent}" update=":appointmentsForm" oncomplete="changeWorkingDayDialog.hide()" />
 						<p:commandButton value="Cancel"	oncomplete="changeWorkingDayDialog.hide()" />
 	                </f:facet>
             	</p:panelGrid>

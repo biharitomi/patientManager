@@ -10,4 +10,6 @@ public interface DateSlotService {
 	public boolean isSlotFree(Doctor doctor, Date date);
 
 	public NeighborDates findFreeNeighborSlot(Doctor doctor, Date date);
+
+	public Date findNextFreeNeighbourSlot(Doctor doctor, Date date);
 }

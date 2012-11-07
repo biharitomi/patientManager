@@ -1,6 +1,7 @@
 package com.acme.hospital.service;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 
@@ -69,7 +70,39 @@ public class SimpleAppointmentFacade implements AppointmentFacade {
 
 	@Override
 	public void changeWorkingDay(Doctor doctor, Date sourceDate, Date targetDay) {
+		Date end=createEndOfTheDayDate(sourceDate);
+		
+		Collection<Appointment> appointments=appointmentService.getDoctorAllAppointmentsBetween(doctor, sourceDate, end);
+		
+		for(Appointment ap : appointments){
+			Date targetDate=createTargetDateFromAppointment(ap, targetDay);
+			Date freeTargetDate=dateSlotService.findNextFreeNeighbourSlot(doctor, targetDate);
+			changeAppointmentDate(ap, freeTargetDate);
+		}
+	}
+	
+	private Date createTargetDateFromAppointment(Appointment ap, Date targetDay) {
+		Calendar appointmentDate=Calendar.getInstance();
+		Calendar targetDayCal=Calendar.getInstance();
+		appointmentDate.setTime(ap.getDate());
+		targetDayCal.setTime(targetDay);
+		
+		targetDayCal.set(Calendar.HOUR_OF_DAY, appointmentDate.get(Calendar.HOUR_OF_DAY));
+		targetDayCal.set(Calendar.MINUTE, appointmentDate.get(Calendar.MINUTE));
+		
+		return targetDayCal.getTime();
+	}
 
+	private Date createEndOfTheDayDate(Date sourceDate){
+		Calendar c=Calendar.getInstance();
+		c.setTime(sourceDate);
+		//Increase with a day
+		c.add(Calendar.DATE, 1);
+		//Decrease with 1 ms
+		long timeInMillis=c.getTimeInMillis();
+		timeInMillis-=1;
+		c.setTimeInMillis(timeInMillis);
+		return c.getTime();
 	}
 
 	@Override

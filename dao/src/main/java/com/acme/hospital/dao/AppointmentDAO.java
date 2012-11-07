@@ -20,4 +20,6 @@ public interface AppointmentDAO {
 	public Appointment getDoctorAppointmentByDate(Doctor doctor, Date date);
 	
 	public Collection<Appointment> getDoctorAllAppointmentsFromDate(Doctor doctor, Date from, Patient patient);
+	
+	public Collection<Appointment> getDoctorAllAppointmentsBetween(Doctor doctor, Date start, Date end);
 }

@@ -113,7 +113,21 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 		
 		session.getTransaction().commit();
 		session.close();
+		return appointments;
+	}
+	
+	@SuppressWarnings("unchecked")
+	@Override
+	public Collection<Appointment> getDoctorAllAppointmentsBetween(Doctor doctor, Date start, Date end) {
+		List<Appointment> appointments;
+		Session session = sessionFactory.openSession();
+		session.beginTransaction();
 		
+		Criteria criteria=session.createCriteria(Appointment.class).add(Restrictions.eq("doctor", doctor)).add(Restrictions.between("date", start, end));
+		appointments=(List<Appointment>)criteria.addOrder(Order.asc("date")).list();
+		
+		session.getTransaction().commit();
+		session.close();
 		return appointments;
 	}
 	
@@ -124,5 +138,4 @@ public class HibernateAppointmentDao implements AppointmentDAO {
 	public void setSessionFactory(SessionFactory sessionFactory) {
 		this.sessionFactory = sessionFactory;
 	}
-	
 }

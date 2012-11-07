@@ -1,5 +1,8 @@
 package com.acme.hospital.dao;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import org.springframework.context.ApplicationContext;
@@ -60,6 +63,28 @@ public class TestBootStrap {
 		a1.setDate(new Date(10000L));
 		appointmentDAO.updateAppointment(a1);
 		System.out.println(appointmentDAO.getDoctorAppointments(d1));
+		
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd hh:mm");
+		Date start;
+		Date end;
+		try {
+			start=sdf.parse("1970-01-01 00:00");
+			
+			Calendar c=Calendar.getInstance();
+			c.setTime(start);
+			c.add(Calendar.DATE, 1);
+			long timeInMillis=c.getTimeInMillis();
+			timeInMillis-=1;
+			c.setTimeInMillis(timeInMillis);
+			end=c.getTime();
+			
+			System.out.println("dates: "+start+", "+end);
+			System.out.println("-------------BETWEEN------------");
+			System.out.println(appointmentDAO.getDoctorAllAppointmentsBetween(d1, start, end).size());
+		} catch (ParseException e) {
+			e.printStackTrace();
+		}
+		
 	}
 
 }

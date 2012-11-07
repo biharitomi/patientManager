@@ -59,6 +59,11 @@ public class SimpleAppointmentService implements AppointmentService {
 		return hasAppointment;
 	}
 	
+	@Override
+	public Collection<Appointment> getDoctorAllAppointmentsBetween(Doctor doctor, Date start, Date end) {
+		return appointmentDAO.getDoctorAllAppointmentsBetween(doctor, start, end);
+	}
+	
 	public AppointmentDAO getAppointmentDAO() {
 		return appointmentDAO;
 	}
